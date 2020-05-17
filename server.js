@@ -16,13 +16,14 @@ app.use(express.static('public'));
 app.use('/api/categories', categories);
 
 
-//Configuration
-//export/set  NODE_ENV=development
+// Configuration
+// export/set  NODE_ENV=development
 startupDebugger('Application name: ' + config.get('name'));
 startupDebugger('Mail server: ' + config.get('mail.host'));
 startupDebugger('Mail password: ' + config.get('mail.password'));
 
-//app.use('/api/categories', categories);
+
+
 if(app.get('env') === 'development'){
 
   app.use(morgan('tiny'));

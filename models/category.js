@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-
+const NAME_MIN_LENGTH = 3;
+const NAME_MAX_LENGTH = 30;
 
 
 
@@ -10,8 +11,8 @@ const categorySchema = new mongoose.Schema({
    name: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 30
+      minlength: NAME_MIN_LENGTH,
+      maxlength: NAME_MAX_LENGTH
    }
 
 });
@@ -22,18 +23,13 @@ function validateCategory(category) {
 
    const schema = Joi.object({
       name: Joi.string()
-         .min(3)
-         .max(30)
+         .min(NAME_MIN_LENGTH)
+         .max(NAME_MAX_LENGTH)
          .required()
    });
 
-   //return schema.validate(category);
    return schema.validate(category);
-   // const schema = {
-   //    name: Joi.string().min(3).required()
-   // }
-
-   // return Joi.validate(category, schema);
+  
 }
 
 module.exports.validate = validateCategory;

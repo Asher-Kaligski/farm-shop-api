@@ -2,22 +2,38 @@ const mongoose = require('mongoose');
 const { Category, validate } = require('../models/category');
 const express = require('express');
 const router = express.Router();
-//const Joi = require('@hapi/joi');
 
 
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
-    res.send(['bread', 'dairy']);
+ try {
+     const categories = await Category.find().sort({ name: 1 });
+     res.send(categories);
 
+ } catch (e) {
+     res.status(500).send(e);
+ }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
-    const { error } = validate(req.body);
+    
+    
+    try {
+
+        const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    res.send(req.body);
+    let category = new Category({ name: req.body.name });
+        category = await category.save();
+        res.send(category);
+
+    } catch (e) {
+        
+        res.status(500).send('Unexpected error occurred: ', e)
+    }
+
 
 });
 
