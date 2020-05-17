@@ -4,8 +4,6 @@ const Joi = require('@hapi/joi');
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 30;
 
-
-
 const categorySchema = new mongoose.Schema({
 
    name: {
@@ -33,4 +31,4 @@ function validateCategory(category) {
 }
 
 module.exports.validate = validateCategory;
-module.exports = Category;
+module.exports.Category = Category;

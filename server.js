@@ -18,9 +18,9 @@ app.use('/api/categories', categories);
 
 // Configuration
 // export/set  NODE_ENV=development
-startupDebugger('Application name: ' + config.get('name'));
-startupDebugger('Mail server: ' + config.get('mail.host'));
-startupDebugger('Mail password: ' + config.get('mail.password'));
+// startupDebugger('Application name: ' + config.get('name'));
+// startupDebugger('Mail server: ' + config.get('mail.host'));
+// startupDebugger('Mail password: ' + config.get('mail.password'));
 
 
 
@@ -49,7 +49,7 @@ if(app.get('env') === 'development'){
 //   res.send(req.params.id);
 // });
 
-mongoose.connect('mongodb://localhost/farm-shop', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/farm-shop', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => dbDebugger('Connected to the MongoDB...'))
   .catch(err => { dbDebugger('Error to connect to MongoDB... ', err)});
 
