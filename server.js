@@ -1,19 +1,25 @@
+//const bodyParser = require('body-parser');
 const startupDebugger = require('debug')('app:startup'); //export DEBUG=app:startup --> export DEBUG= if you don't want to see debug
 const dbDebugger = require('debug')('app:db'); //export DEBUG=app:*  (wildcard)
 const config = require('config');
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const categories = require('./routes/categories');
 const mongoose = require('mongoose');
 const app = express();
-
+const users = require('./routes/users');
+const categories = require('./routes/categories');
+const products = require('./routes/products');
 
 app.use(helmet());
 app.use(express.json());
-app.use(express.urlencoded( { extended: true }));
-app.use(express.static('public'));
+//app.use(express.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(express.static('public'));
 app.use('/api/categories', categories);
+app.use('/api/users', users);
+app.use('/api/products', products);
 
 
 // Configuration
@@ -24,7 +30,7 @@ app.use('/api/categories', categories);
 
 
 
-if(app.get('env') === 'development'){
+if (app.get('env') === 'development') {
 
   app.use(morgan('tiny'));
   startupDebugger('Morgan log is enabled');
@@ -49,10 +55,15 @@ if(app.get('env') === 'development'){
 //   res.send(req.params.id);
 // });
 
-mongoose.connect('mongodb://localhost/farm-shop', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect('mongodb://localhost/farm-shop', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+})
   .then(() => dbDebugger('Connected to the MongoDB...'))
-  .catch(err => { dbDebugger('Error to connect to MongoDB... ', err)});
+  .catch(err => { dbDebugger('Error to connect to MongoDB... ', err) });
 
 const port = process.env.PORT || 3000;
 
-app.listen(port , () => startupDebugger(`Listening on port ${port}`));
+app.listen(port, () => startupDebugger(`Listening on port ${port}`));

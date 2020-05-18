@@ -21,6 +21,7 @@ function validateCategory(category) {
 
    const schema = Joi.object({
       name: Joi.string()
+         .alphanum()
          .min(NAME_MIN_LENGTH)
          .max(NAME_MAX_LENGTH)
          .required()
