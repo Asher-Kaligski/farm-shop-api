@@ -32,12 +32,9 @@ const productSchema = new mongoose.Schema({
         maxlength: TITLE_MAX_LENGTH
     },
     farm: {
-        // farmId:,
-        // farmName:
-        // type: String,
-        // required: true,
-        // minlength: TITLE_MIN_LENGTH,
-        // maxlength: TITLE_MAX_LENGTH
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Farm',
+        required: true
     }
 });
 
@@ -60,5 +57,5 @@ function validateProduct(product) {
 }
 
 
-module.exports.Category = Category;
+module.exports.Product = Product;
 module.exports.validate = validateProduct;

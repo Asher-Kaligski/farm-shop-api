@@ -58,7 +58,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    category = await Category.findByIdAndRemove(req.params.id);
+    let category = await Category.findByIdAndRemove(req.params.id);
     if (!category)
       res.status(404).send('The category with given ID has not been found');
 

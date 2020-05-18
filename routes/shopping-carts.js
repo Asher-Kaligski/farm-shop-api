@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-const { Category, validate } = require('../models/product');
+const { ShoppingCart, validate } = require('../models/shopping-cart');
 const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const products = await Category.find().sort({ name: 1 });
-    res.send(products);
+    const shoppingCarts = await ShoppingCart.find().sort({ name: 1 });
+    res.send(shoppingCarts);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -14,13 +14,13 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    let category = await Product.findById(req.params.id);
-    if (!category)
+    let shoppingCart = await ShoppingCart.findById(req.params.id);
+    if (!shoppingCart)
       return res
         .status(404)
-        .send('The product with given ID has no been found');
+        .send('The category with given ID has no been found');
 
-    res.send(category);
+    res.send(shoppingCart);
   } catch (e) {
     res.status(500).send('Unexpected error: ', e);
   }
@@ -30,10 +30,10 @@ router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let product = new Product({ name: req.body.name });
+  let shoppingCart = new ShoppingCart({ name: req.body.name });
   try {
-    product = await product.save();
-    res.send(product);
+    shoppingCart = await shoppingCart.save();
+    res.send(shoppingCart);
   } catch (e) {
     res.status(500).send('Unexpected error occurred: ', e);
   }
@@ -44,13 +44,13 @@ router.put('/:id', async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   try {
-    let product = await Category.findById(req.params.id);
-    if (!product)
+    let shoppingCart = await ShoppingCart.findById(req.params.id);
+    if (!shoppingCart)
       res.status(404).send('The category with given ID has not been found');
 
-    product.name = req.body.name;
-    product = await product.save();
-    res.send(product);
+    shoppingCart.name = req.body.name;
+    shoppingCart = await shoppingCart.save();
+    res.send(shoppingCart);
   } catch (e) {
     res.status(500).send('Unexpected error: ', e);
   }
@@ -58,11 +58,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let product = await Category.findByIdAndRemove(req.params.id);
-    if (!product)
+    let shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
+    if (!shoppingCart)
       res.status(404).send('The category with given ID has not been found');
 
-    res.send(product);
+    res.send(shoppingCart);
   } catch (error) {
     res.status(500).send('Unexpected error: ', e);
   }

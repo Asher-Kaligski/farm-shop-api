@@ -10,6 +10,7 @@ const app = express();
 const users = require('./routes/users');
 const categories = require('./routes/categories');
 const products = require('./routes/products');
+const farms = require('./routes/farms');
 
 app.use(helmet());
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/products', products);
+app.use('/api/farms', farms);
 
 
 // Configuration
