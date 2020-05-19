@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const shippingSchema = require('../models/shipping');
+const shoppingCartSchema = require('../models/shopping-cart');
 
 
 
@@ -11,20 +12,15 @@ const orderSchema = new mongoose.Schema({
         default: Date.now
     },
 
-    shipping: shippingSchema,
+    shippingId: shippingSchema,
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     shoppingCartId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        type: shoppingCartSchema,
         required: true
-    },
-    totalPice:{
-        type: Number,
-        min: 0
     }
 
 
@@ -33,7 +29,21 @@ const orderSchema = new mongoose.Schema({
 const Order = mongoose.model('Order', orderSchema);
 
 
+function validateOrder(params) {
+
+    const schema = Joi.object({
+
+      customerId: Joi.string().required(),
+      shoppingCartId: Joi.string().required(),
+      shippingId: Joi.string().required()
+
+    });
+    
+}
+
+
 module.exports.Order = Order;
+module.exports.validate = validateOrder;
 
 
 // "datePlaced" : 1582201277271,

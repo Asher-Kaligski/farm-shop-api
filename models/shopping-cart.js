@@ -1,74 +1,92 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-
 const itemSchema = new mongoose.Schema({
-
-
-   imgUrl: String,
-   price: {
-      type: Number,
-      min:0.1,
-      max: 10000
-   },
-   quantity: {
-      type: Number,
-      min:1,
-      max: 1000
-   },
-   totalPrice: {
-      type: Number,
-      min: 0,
-      max: 1000,
-      required: function() { return this.quantity > 0},
-      get: function() {return this.quantity * this.price },
-      default: 0
-
-   },
-   // totalPrice: function () {
-   //    this.price * this.quantity;
-   // },
-   title: String,
-   category: String,
-   productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
-   }
-
-
+//   imgUrl: String,
+//   price: {
+//     type: Number,
+//     min: 0.1,
+//     max: 10000,
+//   },
+  quantity: {
+    type: Number,
+    min: 1,
+    max: 1000,
+    required: true
+  },
+  itemTotalPrice: {
+    type: Number,
+    min: 0.1,
+    max: 10000,
+  },
+  // totalPrice: function () {
+  //    this.price * this.quantity;
+  // },
+//   title: {
+//      type: String,
+//      required: true
+//   },
+//   category: {
+//    type: String,
+//    required: true
+// },
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 });
+
+
+//const Item = mongoose.model('Item', itemSchema);
 
 const shoppingCartSchema = new mongoose.Schema({
-
-   dateCreated: {
-      type: Date,
-      default: Date.now
-   },
-   customer: {
+  dateCreated: {
+    type: Date,
+    default: Date.now,
+  },
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-   },
-   items: [itemSchema],
-   orderId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order'
-   }
+    ref: 'User',
+  },
+  items: [itemSchema],
+  orderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order',
+  },
+  totalPrice: {
+    type: Number,
+    min: 0,
+    max: 100000,
+    default: 0,
+  },
 });
-
 
 const ShoppingCart = mongoose.model('ShoppingCart', shoppingCartSchema);
 
-function validateShoppingCart(shoppingCart) {
+
+function validateItem(item) {
    
+  const schema = Joi.object({
 
-   const schema = Joi.object({
-        items: Joi.number()
-   });
+      productId: Joi.string().required(),
+      quantity: Joi.number().min(1).max(10000).required()
 
-   return schema.validate(shoppingCart);
+  });
+
+  return schema.validate(item);
 
 }
-https://github.com/hapijs/joi/issues/1657
+
+// function validateShoppingCart(shoppingCart) {
+
+//    const schema = Joi.object({
+//         items: Joi.number()
+//    });
+
+//    return schema.validate(shoppingCart);
+
+// }
+//https://github.com/hapijs/joi/issues/1657
 
 // const articleSchema = Joi.object({
 //    name: Joi.string().required(),
@@ -79,6 +97,5 @@ https://github.com/hapijs/joi/issues/1657
 //    articles: Joi.array().items(articleSchema)
 //  });
 
-
 module.exports.ShoppingCart = ShoppingCart;
-module.exports.validate = validateShoppingCart;
+module.exports.validateItem = validateItem;

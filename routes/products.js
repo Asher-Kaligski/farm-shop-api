@@ -36,6 +36,11 @@ router.post('/', async (req, res) => {
     let farm = await Farm.findById(req.body.farmId);
     if (!farm) return res.status(400).send('Could not create product the farm has not been found');
 
+    const categories = await Farm.find({ _id: farm._id }).select({ categories: 1, _id: 0 });
+    const categoriesArr = categories.map((obj) => obj['categories']);
+    if (!categoriesArr[0].includes(req.body.category))
+      return res.status(400).send('Not allowed categories');
+
     let product = new Product({
       category: req.body.category,
       imageUrl: req.body.imageUrl,
@@ -63,6 +68,10 @@ router.put('/:id', async (req, res) => {
     let farm = await Farm.findById(req.body.farmId);
     if (!farm) return res.status(400).send('Could not update product the farm has not been found');
 
+    const categories = await Farm.find({ _id: farm._id }).select({ categories: 1, _id: 0 });
+    const categoriesArr = categories.map((obj) => obj['categories']);
+    if (!categoriesArr[0].includes(req.body.category))
+      return res.status(400).send('Not allowed categories');
 
     product.category = req.body.category,
       product.imageUrl = req.body.imageUrl,

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "3265a2d1-18cd-6b39-0482-b50ee0fcbc34",
+		"_postman_id": "fe441f37-3820-dec0-65cf-261ef40fc627",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -13,7 +13,10 @@
 				"url": "localhost:3000/api/users",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -24,7 +27,10 @@
 				"url": "localhost:3000/api/categories/5ec1f9f4eb60661f182bcc42",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -35,7 +41,10 @@
 				"url": "localhost:3000/api/categories",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -46,7 +55,10 @@
 				"url": "localhost:3000/api/categories/5ec22c8087721117c0fd94e2",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -85,7 +97,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Bread1\"\n}"
+					"raw": "{\n\t\"name\": \"Seasonings and Spices\"\n}"
 				},
 				"description": ""
 			},
@@ -105,7 +117,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"Delete\",\n\t\"lastName\": \"Customer\",\n\t\"phone\": \"45654654\",\n\t\"email\": \"dustomer1@gmail.com\",\n\t\"password\": \"Fds65465\"\n}"
+					"raw": "{\n\t\"firstName\": \"FarmOwner2\",\n\t\"lastName\": \"FarmOwner2\",\n\t\"phone\": \"1234567\",\n\t\"email\": \"farmowner2@gmail.com\",\n\t\"password\": \"Afds6546\"\n}"
 				},
 				"description": ""
 			},
@@ -117,7 +129,10 @@
 				"url": "localhost:3000/api/users/5ec36f3ecb0b7832443cc245",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -148,7 +163,10 @@
 				"url": "localhost:3000/api/users/5ec36f3ecb0b7832443cc245",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -159,7 +177,10 @@
 				"url": "localhost:3000/api/farms",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -178,7 +199,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"VegetablesFarm3\",\n\t\"categories\": [\"Dairy\"],\n\t\"phone\": \"6546546\",\n\t\"farmOwnerId\": \"5ec36e4ccb0b7832443cc243\"\n}"
+					"raw": "{\n\t\"name\": \"FruitsFarm\",\n\t\"categories\": [\"Fruits\"],\n\t\"phone\": \"6546546\",\n\t\"farmOwnerId\": \"5ec4018bab882113f0fe4f67\"\n}"
 				},
 				"description": ""
 			},
@@ -190,7 +211,10 @@
 				"url": "localhost:3000/api/farms/5ec37a7e05e9db290cac81ed",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -221,7 +245,10 @@
 				"url": "localhost:3000/api/farms/5ec37b6705e9db290cac81ef",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -232,7 +259,10 @@
 				"url": "localhost:3000/api/products",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -252,6 +282,79 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"category\": \"Vegetables\",\n\t\"price\": 2.7,\n\t\"title\": \"onion\",\n\t\"farmId\": \"5ec3b1c85cb6ac219402036f\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Products Post",
+			"request": {
+				"url": "http://localhost:3000/api/products",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category\": \"Vegetables\",\n\t\"price\": 5.1,\n\t\"title\":\"carrots\",\n\t\"farmId\": \"5ec418a799886f3b5707cbcb\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCarts GET",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCarts POST",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCarts GET BY ID",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ec427f0f1958e4e50ac8959",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCart PUT",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ec42a4eedd53f519d400749",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"productId\": \"5ec4201d668e7444e415de0e\",\n\t\"quantity\": \"13\"\n}"
 				},
 				"description": ""
 			},
