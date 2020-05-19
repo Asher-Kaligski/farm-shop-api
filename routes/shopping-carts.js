@@ -56,6 +56,23 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id/:productId', async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) res.status(400).send(error.details[0].message);
+
+  try {
+    let shoppingCart = await ShoppingCart.findById(req.params.id);
+    if (!shoppingCart)
+      res.status(404).send('The category with given ID has not been found');
+
+    shoppingCart.name = req.body.name;
+    shoppingCart = await shoppingCart.save();
+    res.send(shoppingCart);
+  } catch (e) {
+    res.status(500).send('Unexpected error: ', e);
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     let shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);

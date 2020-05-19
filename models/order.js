@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const shippingSchema = require('../models/shipping');
 
 
 
@@ -9,13 +10,21 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    items: [],
 
-    shipping: {},
-    customer: {
+    shipping: shippingSchema,
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    shoppingCartId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    totalPice:{
+        type: Number,
+        min: 0
     }
 
 

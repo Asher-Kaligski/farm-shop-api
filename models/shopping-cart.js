@@ -8,16 +8,32 @@ const itemSchema = new mongoose.Schema({
    imgUrl: String,
    price: {
       type: Number,
-      min:0,
+      min:0.1,
       max: 10000
    },
    quantity: {
       type: Number,
-      min:0,
+      min:1,
       max: 1000
    },
+   totalPrice: {
+      type: Number,
+      min: 0,
+      max: 1000,
+      required: function() { return this.quantity > 0},
+      get: function() {return this.quantity * this.price },
+      default: 0
+
+   },
+   // totalPrice: function () {
+   //    this.price * this.quantity;
+   // },
    title: String,
-   category: String
+   category: String,
+   productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+   }
 
 
 });
@@ -32,7 +48,11 @@ const shoppingCartSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
    },
-   items: [itemSchema]
+   items: [itemSchema],
+   orderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order'
+   }
 });
 
 

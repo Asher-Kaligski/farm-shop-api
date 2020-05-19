@@ -11,6 +11,8 @@ const users = require('./routes/users');
 const categories = require('./routes/categories');
 const products = require('./routes/products');
 const farms = require('./routes/farms');
+const shoppingCarts = require('./routes/shopping-carts');
+const orders = require('./routes/orders');
 
 app.use(helmet());
 app.use(express.json());
@@ -22,6 +24,8 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/products', products);
 app.use('/api/farms', farms);
+app.use('/api/shoppingCarts', shoppingCarts);
+app.use('/api/orders', orders);
 
 
 // Configuration
@@ -32,13 +36,13 @@ app.use('/api/farms', farms);
 
 
 
-if (app.get('env') === 'development') {
+//if (app.get('env') === 'development') {
 
   app.use(morgan('tiny'));
   startupDebugger('Morgan log is enabled');
   //console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
-}
+//}
 
 // app.get('/', (req, res) => {
 //   res.send('Hello World!!!');

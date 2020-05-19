@@ -7,6 +7,10 @@ const shippingSchema = new mongoose.Schema({
    city: String,
    address: String,
    postCode: String,
+   notes: {
+      type: String,
+      maxlength: 255
+   }
 
 
 });

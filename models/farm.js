@@ -11,9 +11,23 @@ const DEFAULT_FEE = 5;
 
 const farmSchema = new mongoose.Schema({
   farmOwner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'User',
+    type: new mongoose.Schema({
+      firstName: {
+        type: String,
+        required: true,
+        minlength: NAME_MIN_LENGTH,
+        maxlength: NAME_MAX_LENGTH
+      },
+      lastName: {
+        type: String,
+        required: true,
+        minlength: NAME_MIN_LENGTH,
+        maxlength: NAME_MAX_LENGTH
+      }
+    }),
+    required: true
   },
   address: String,
   name: {
@@ -21,6 +35,7 @@ const farmSchema = new mongoose.Schema({
     required: true,
     minlength: NAME_MIN_LENGTH,
     maxlength: NAME_MAX_LENGTH,
+    unique: true
   },
 
   categories: [String],
@@ -45,10 +60,13 @@ function validateFarm(farm) {
     name: Joi.string().min(NAME_MIN_LENGTH).max(NAME_MAX_LENGTH).required(),
     categories: Joi.array().items(Joi.string()).required(),
     phone: Joi.string().min(PHONE_MIN_LENGTH).max(PHONE_MAX_LENGTH).required(),
-    farmOwner: Joi.object().ref().required(),
+    fee: Joi.number().min(1),
+    farmOwnerId: Joi.string().required()
+
   });
 
-  schema.validate(farm);
+  return schema.validate(farm);
+  // farmOwnerId: Joi.object().ref().required()
 }
 
 module.exports.Farm = Farm;
