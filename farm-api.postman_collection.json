@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "fe441f37-3820-dec0-65cf-261ef40fc627",
+		"_postman_id": "6946d6f9-2d8c-5577-1b49-859deaafb0ad",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -313,7 +313,10 @@
 				"url": "localhost:3000/api/shoppingCarts",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -324,7 +327,10 @@
 				"url": "localhost:3000/api/shoppingCarts",
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -335,7 +341,10 @@
 				"url": "localhost:3000/api/shoppingCarts/5ec427f0f1958e4e50ac8959",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -344,7 +353,7 @@
 			"name": "ShoppingCart PUT",
 			"request": {
 				"url": "localhost:3000/api/shoppingCarts/5ec42a4eedd53f519d400749",
-				"method": "PUT",
+				"method": "PATCH",
 				"header": [
 					{
 						"key": "Content-Type",

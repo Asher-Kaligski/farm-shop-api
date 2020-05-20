@@ -63,3 +63,4 @@ function validateProduct(product) {
 
 module.exports.Product = Product;
 module.exports.validate = validateProduct;
+module.exports.productSchema = productSchema;
