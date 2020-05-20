@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "6946d6f9-2d8c-5577-1b49-859deaafb0ad",
+		"_postman_id": "544cce8a-91a0-d08b-fe6e-4a13ceaa4c09",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -326,10 +326,16 @@
 			"request": {
 				"url": "localhost:3000/api/shoppingCarts",
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"userId\": \"5ec400cbab882113f0fe4f64\",\n\t\"items\": [\n\t\t{\n\t\t\t\"productId\": \"5ec4201d668e7444e415de0e\",\n\t\t\t\"quantity\": 4\n\t\t},\n\t\t{\n\t\t\t\"productId\": \"5ec4203e668e7444e415de10\",\n\t\t\t\"quantity\": 13\n\t\t}\n\t\t]\n}"
 				},
 				"description": ""
 			},
@@ -352,7 +358,7 @@
 		{
 			"name": "ShoppingCart PUT",
 			"request": {
-				"url": "localhost:3000/api/shoppingCarts/5ec42a4eedd53f519d400749",
+				"url": "localhost:3000/api/shoppingCarts/5ec56144f060e532fa7aa628",
 				"method": "PATCH",
 				"header": [
 					{
@@ -363,7 +369,27 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"productId\": \"5ec4201d668e7444e415de0e\",\n\t\"quantity\": \"13\"\n}"
+					"raw": "{\n\t\"productId\": \"5ec42050668e7444e415de12\",\n\t\"quantity\": 130\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCart PUT",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ec42a4eedd53f519d400749",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"productId\": \"5ec4203e668e7444e415de10\",\n\t\"quantity\": \"9\"\n}"
 				},
 				"description": ""
 			},

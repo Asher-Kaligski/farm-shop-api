@@ -21,11 +21,6 @@ const orderSchema = new mongoose.Schema({
     shoppingCartId: {
         type: shoppingCartSchema,
         required: true
-    },
-    isCompleted: {
-        type: Boolean,
-        default: false,
-        required: true
     }
 
 

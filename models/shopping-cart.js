@@ -7,8 +7,17 @@ const CATEGORY_MAX_LENGTH = 30;
 const TITLE_MIN_LENGTH = 2;
 const TITLE_MAX_LENGTH = 30;
 
-const PRICE_MIN = 0;
-const PRICE_MAX = 1000;
+const PRODUCT_PRICE_MIN = 0.01;
+const PRODUCT_PRICE_MAX = 10000;
+
+const ITEM_QUANTITY_MIN = 0;
+const ITEM_QUANTITY_MAX = 1000;
+
+const ITEM_TOTAL_PRICE_MIN = 0.01;
+const ITEM_TOTAL_PRICE_MAX = 100000;
+
+const TOTAL_PRICE_MIN = 0;
+const TOTAL_PRICE_MAX = 1000000;
 
 
 
@@ -27,8 +36,10 @@ const productSchema = new mongoose.Schema({
   price: {
       type: Number,
       required: true,
-      min: 0,
-      max: 1000
+      min: PRODUCT_PRICE_MIN,
+      max: PRODUCT_PRICE_MAX,
+      get: v => v.toFixed(2),
+      set: v => v.toFixed(2)
   },
   title: {
       type: String,
@@ -41,49 +52,30 @@ const productSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
   firstName: String,
-  lastName: String,
-  email: String
+  lastName: String
 })
 
 const itemSchema = new mongoose.Schema({
-//   imgUrl: String,
-//   price: {
-//     type: Number,
-//     min: 0.1,
-//     max: 10000,
-//   },
+
   quantity: {
     type: Number,
-    min: 1,
-    max: 1000,
+    min: ITEM_QUANTITY_MIN,
+    max: ITEM_QUANTITY_MAX,
     required: true
   },
   itemTotalPrice: {
     type: Number,
-    min: 0.1,
-    max: 10000,
-    required: true
+    min: ITEM_TOTAL_PRICE_MIN,
+    max: ITEM_TOTAL_PRICE_MAX,
+    required: true,
+    get: v => v.toFixed(2),
+    set: v => v.toFixed(2)
   },
   product: productSchema
-  // totalPrice: function () {
-  //    this.price * this.quantity;
-  // },
-//   title: {
-//      type: String,
-//      required: true
-//   },
-//   category: {
-//    type: String,
-//    required: true
-// },
-  // productId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   required: true,
-  // },
+
 });
 
 
-//const Item = mongoose.model('Item', itemSchema);
 
 const shoppingCartSchema = new mongoose.Schema({
   dateCreated: {
@@ -96,57 +88,44 @@ const shoppingCartSchema = new mongoose.Schema({
     required: true
   },
   items: [itemSchema],
-  order: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Order',
-    default: null
-  },
   totalPrice: {
     type: Number,
-    min: 0,
-    max: 100000,
+    min: TOTAL_PRICE_MIN,
+    max: TOTAL_PRICE_MAX,
     default: 0,
     required: true
-  },
+    
+  }
 });
 
 const ShoppingCart = mongoose.model('ShoppingCart', shoppingCartSchema);
 
 
 
-const itemSchemaValidate = Joi.object({
+const joiItemSchema = Joi.object({
 
     productId: Joi.string().required(),
-    quantity: Joi.number().min(1).max(10000).required()
+    quantity: Joi.number().min(ITEM_QUANTITY_MIN).max(ITEM_QUANTITY_MAX).required()
 
 });
 
 function validateItem(item) {
   
-  return itemSchemaValidate.validate(item);
+  return joiItemSchema.validate(item);
 
 }
 
 function validateShoppingCart(shoppingCart) {
 
    const schema = Joi.object({
-        items: Joi.array().items(itemSchemaValidate).allow(null).allow(''),
+        items: Joi.array().items(joiItemSchema).allow(null).allow('').required(),
         userId: Joi.string().required()
    });
 
    return schema.validate(shoppingCart);
 
 }
-//https://github.com/hapijs/joi/issues/1657
 
-// const articleSchema = Joi.object({
-//    name: Joi.string().required(),
-//    created: Joi.date()
-//  });
-//  const userSchema = Joi.object({
-//    username: Joi.string().trim().required(),
-//    articles: Joi.array().items(articleSchema)
-//  });
 
 module.exports.ShoppingCart = ShoppingCart;
 module.exports.validateItem = validateItem;
