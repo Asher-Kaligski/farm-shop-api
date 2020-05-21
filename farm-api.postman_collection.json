@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "544cce8a-91a0-d08b-fe6e-4a13ceaa4c09",
+		"_postman_id": "2b752a45-abb4-e2ed-3a68-481282193f69",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -391,6 +391,17 @@
 					"mode": "raw",
 					"raw": "{\n\t\"productId\": \"5ec4203e668e7444e415de10\",\n\t\"quantity\": \"9\"\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppinCart DELETE",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ec5f5a80ecc551d7414fe55",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []

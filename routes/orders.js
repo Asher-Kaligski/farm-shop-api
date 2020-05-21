@@ -14,6 +14,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
+
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Order.');
+
     let orders = await Order.findById(req.params.id);
     if (!orders)
       return res
@@ -43,7 +49,14 @@ router.put('/:id', async (req, res) => {
 //   const { error } = validate(req.body);
 //   if (error) res.status(400).send(error.details[0].message);
 
+//update shoppingCart orderId
+
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Order.');
+
     let order = await Order.findById(req.params.id);
     if (!order)
       res.status(404).send('The category with given ID has not been found');
@@ -58,6 +71,10 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Order.');
+
     let order = await Order.findByIdAndRemove(req.params.id);
     if (!order)
       res.status(404).send('The category with given ID has not been found');

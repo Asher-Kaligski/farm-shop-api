@@ -53,7 +53,7 @@ function validateProduct(product) {
         imageUrl: Joi.string(),
         price: Joi.number().min(PRICE_MIN).max(PRICE_MAX).required(),
         title: Joi.string().min(TITLE_MIN_LENGTH).max(TITLE_MAX_LENGTH).required(),
-        farmId: Joi.string().required()
+        farmId: Joi.objectId().required()
 
     });
 

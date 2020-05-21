@@ -2,12 +2,15 @@
 const startupDebugger = require('debug')('app:startup'); //export DEBUG=app:startup --> export DEBUG= if you don't want to see debug
 const dbDebugger = require('debug')('app:db'); //export DEBUG=app:*  (wildcard)
 const config = require('config');
+const Joi = require('@hapi/joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const app = express();
 const users = require('./routes/users');
+const auth = require('./models/auth');
 const categories = require('./routes/categories');
 const products = require('./routes/products');
 const farms = require('./routes/farms');
@@ -20,12 +23,13 @@ app.use(express.json());
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(express.static('public'));
-app.use('/api/categories', categories);
 app.use('/api/users', users);
+app.use('/api/categories', categories);
 app.use('/api/products', products);
 app.use('/api/farms', farms);
 app.use('/api/shoppingCarts', shoppingCarts);
 app.use('/api/orders', orders);
+app.use('/api/auth', auth);
 
 
 // Configuration
@@ -35,6 +39,10 @@ app.use('/api/orders', orders);
 // startupDebugger('Mail password: ' + config.get('mail.password'));
 
 
+// if(config.get("farm_jwtPrivateKey")){
+//   startupDebugger('FATAL ERROR: jwtPrivateKey is not defined');
+//   process.exit(1);
+// }
 
 //if (app.get('env') === 'development') {
 

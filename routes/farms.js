@@ -16,6 +16,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Farm.');
+
     let farm = await Farm.findById(req.params.id);
     if (!farm)
       return res.status(404).send('The farm with given ID has no been found');
@@ -73,6 +78,12 @@ router.put('/:id', async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   try {
+
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Farm.');
+
     const user = await User.findById(req.body.farmOwnerId);
     if (!user)
       return res
@@ -111,6 +122,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Farm.');
+
     let farm = await Farm.findByIdAndRemove(req.params.id);
     if (!farm)
       res.status(404).send('The farm with given ID has not been found');

@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+const _ = require('lodash');
+const bcrypt = require('bcrypt');
 const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
@@ -18,6 +22,12 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 
     try {
+
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return send.status(400)
+            .send('Invalid User.');
+
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).send('The user with given ID has not been found');
 
@@ -35,6 +45,10 @@ router.put('/:id', async (req, res) => {
 
         const { error } = await validate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return send.status(400)
+            .send('Invalid User.');
 
         let user = await User.findById(req.params.id);
         if (!user) return res.status(404).send('The user with given ID has not been found');
@@ -56,29 +70,34 @@ router.put('/:id', async (req, res) => {
 
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
 
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     try {
 
-        let user = await User.find({ email: req.body.email });
-        console.log(user)
-        if (user.length > 0) return res.status(400).send(`The user with email: ${req.body.email} already exists`);
+        let user = await User.findOne({ email: req.body.email });
+        if (user) return res.status(400).send(`The user with email: ${req.body.email} already exists`);
 
 
-        user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            phone: req.body.phone,
-            email: req.body.email,
-            password: req.body.password
-        });
+        // user = new User({
+        //     firstName: req.body.firstName,
+        //     lastName: req.body.lastName,
+        //     phone: req.body.phone,
+        //     email: req.body.email,
+        //     password: req.body.password
+        // });
+        user = new User(_.pick(req.body, ['firstName', 'lastName', 'email', 'phone', 'password']));
 
+        const salt = await bcrypt.genSalt(10);
+        user.password = bcrypt.hash(user.password, salt);
        
-        user = await user.save();
-        res.send(user);
+        await user.save();
+
+        
+        const token = jwt.sign({_id: user._id}, config.get("jwtPrivateKey"));
+        res.header('x-auth-token', token).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']));
 
 
     } catch (e) {
@@ -92,6 +111,11 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res) => {
 
     try {
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return send.status(400)
+            .send('Invalid User.');
+
         const user = await User.findByIdAndRemove(req.params.id);
         if (!user) return res.status(404).send('The user with given ID has not been found');
 

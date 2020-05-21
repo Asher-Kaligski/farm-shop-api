@@ -14,6 +14,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Category.');
+
     let category = await Category.findById(req.params.id);
     if (!category)
       return res
@@ -44,6 +49,11 @@ router.put('/:id', async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Category.');
+
     let category = await Category.findById(req.params.id);
     if (!category)
       res.status(404).send('The category with given ID has not been found');
@@ -58,6 +68,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400)
+        .send('Invalid Category.');
+
     let category = await Category.findByIdAndRemove(req.params.id);
     if (!category)
       res.status(404).send('The category with given ID has not been found');

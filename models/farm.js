@@ -61,7 +61,7 @@ function validateFarm(farm) {
     categories: Joi.array().items(Joi.string()).required(),
     phone: Joi.string().min(PHONE_MIN_LENGTH).max(PHONE_MAX_LENGTH).required(),
     fee: Joi.number().min(1),
-    farmOwnerId: Joi.string().required()
+    farmOwnerId: Joi.objectId().required()
 
   });
 

@@ -3,7 +3,10 @@ const Joi = require('@hapi/joi');
 const shippingSchema = require('../models/shipping');
 const shoppingCartSchema = require('../models/shopping-cart');
 
-
+const customerSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String
+  });
 
 const orderSchema = new mongoose.Schema({
 
@@ -12,13 +15,12 @@ const orderSchema = new mongoose.Schema({
         default: Date.now
     },
 
-    shippingId: shippingSchema,
-    customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+    shipping: shippingSchema,
+    customer: {
+        type: customerSchema,
         required: true
     },
-    shoppingCartId: {
+    shoppingCart: {
         type: shoppingCartSchema,
         required: true
     }
@@ -33,9 +35,9 @@ function validateOrder(params) {
 
     const schema = Joi.object({
 
-      customerId: Joi.string().required(),
-      shoppingCartId: Joi.string().required(),
-      shippingId: Joi.string().required()
+      customerId: Joi.objectId().required(),
+      shoppingCartId: Joi.objectId().required(),
+       shippingId: Joi.objectId()
 
     });
     
