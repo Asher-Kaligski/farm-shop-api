@@ -1,6 +1,6 @@
 {
     "mail": {
-        "password": "farm_api_password"
-    },
-    "jwtPrivateKey": "farm_jwtPrivateKey"
+        "password": "farm_api_password",
+        "jwtPrivateKey": "farm_jwtPrivateKey"
+    }
 }

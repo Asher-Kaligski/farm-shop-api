@@ -1,4 +1,6 @@
 //const bodyParser = require('body-parser');
+require('express-async-errors');
+const error = require('./middleware/error');
 const startupDebugger = require('debug')('app:startup'); //export DEBUG=app:startup --> export DEBUG= if you don't want to see debug
 const dbDebugger = require('debug')('app:db'); //export DEBUG=app:*  (wildcard)
 const config = require('config');
@@ -31,18 +33,24 @@ app.use('/api/shoppingCarts', shoppingCarts);
 app.use('/api/orders', orders);
 app.use('/api/auth', auth);
 
+app.use(error);
+
+
+
+
+
 
 // Configuration
 // export/set  NODE_ENV=development
-// startupDebugger('Application name: ' + config.get('name'));
-// startupDebugger('Mail server: ' + config.get('mail.host'));
-// startupDebugger('Mail password: ' + config.get('mail.password'));
+startupDebugger('Application name: ' + config.get('name'));
+startupDebugger('Mail server: ' + config.get('mail.host'));
+startupDebugger('Mail password: ' + config.get('mail.password'));
 
 
-// if(config.get("farm_jwtPrivateKey")){
-//   startupDebugger('FATAL ERROR: jwtPrivateKey is not defined');
-//   process.exit(1);
-// }
+if(!config.get('jwtPrivateKey')){
+  startupDebugger('FATAL ERROR: jwtPrivateKey is not defined');
+  process.exit(1);
+}
 
 //if (app.get('env') === 'development') {
 
