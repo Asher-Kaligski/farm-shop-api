@@ -1,6 +1,5 @@
-
 const Joi = require('@hapi/joi');
-const mongoose = require('mongoose');;
+const mongoose = require('mongoose');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const { User, EMAIL_MIN_LENGTH, EMAIL_MAX_LENGTH } = require('../models/user');
@@ -23,9 +22,6 @@ router.post('/', async (req, res) => {
     const token = user.generateAuthToken();
     res.send(token);
 });
-
-
-
 
 
 function validate(req) {

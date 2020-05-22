@@ -2,11 +2,12 @@
   "name": "farm-shop-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "sever.js",
   "scripts": {
-    "start": "node server.js",
-    "devStartWindows": "set DEBUG=app:*  && nodemon server.js",
-    "devStart": "export DEBUG=app:* && nodemon server.js"
+    "start": "export NODE_ENV=production && node server.js",
+    "pm2start": "export NODE_ENV=production && pm2-runtime start ecosystem.config.js --env production",
+    "devStartWindows": "set DEBUG=app:* farm_mail_password=123 farm_jwtPrivateKey=1234 && nodemon server.js",
+    "devStart": "export NODE_ENV=development DEBUG=app:* farm_mail_password=123 farm_jwtPrivateKey=1234 && nodemon server.js"
   },
   "author": "Asher Kaligski",
   "license": "ISC",
@@ -24,8 +25,9 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.14",
     "morgan": "^1.10.0",
-    "winston": "^3.2.1",
-    "winston-mongodb": "^5.0.1"
+    "pm2": "^4.4.0",
+    "winston": "^2.*",
+    "winston-mongodb": "^3.0.0"
   },
   "devDependencies": {
     "jest": "^26.0.1",

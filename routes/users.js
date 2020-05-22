@@ -1,4 +1,3 @@
-const asyncMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const mongoose = require('mongoose');
@@ -19,10 +18,6 @@ router.get('/', [auth, admin], async (req, res) => {
 
 router.get('/me', auth,  async (req, res) => {
 
-
-        if (!mongoose.Types.ObjectId.isValid(req.user._id))
-        return send.status(400)
-            .send('Invalid User.');
 
         const user = await User.findById(req.user._id).select({password: 0});
         if (!user) return res.status(404).send('The user with given ID has not been found');

@@ -1,140 +1,105 @@
+const auth = require('../middleware/auth');
+const farmOwner = require('../middleware/farm-owner');
 const mongoose = require('mongoose');
-const { Farm, validate } = require('../models/farm');
+const { Farm, validate, createFarm, updateFarm } = require('../models/farm');
 const { User } = require('../models/user');
 const { Category } = require('../models/category');
 const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  try {
-    const farms = await Farm.find().sort({ name: 1 });
-    res.send(farms);
-  } catch (e) {
-    res.status(500).send(e);
-  }
+  const farms = await Farm.find().sort({ name: 1 });
+  res.send(farms);
 });
 
 router.get('/:id', async (req, res) => {
-  try {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Farm.');
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Farm.');
+  let farm = await Farm.findById(req.params.id);
+  if (!farm)
+    return res.status(404).send('The farm with given ID has no been found');
 
-    let farm = await Farm.findById(req.params.id);
-    if (!farm)
-      return res.status(404).send('The farm with given ID has no been found');
-
-    res.send(farm);
-  } catch (e) {
-    res.status(500).send('Unexpected error: ', e);
-  }
+  res.send(farm);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', [auth, farmOwner], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    const user = await User.findById(req.body.farmOwnerId);
-    if (!user) return res.status(400).send('Invalid User.');
-    if (!user.roles.includes('FARM_OWNER'))
-      return res.status(403).send("The user doesn't have permission");
+  const user = await User.findById(req.body.userId);
+  if (!user) return res.status(400).send('Invalid User.');
 
-    const categories = await Category.find().select({ name: 1, _id: 0 });
-    const categoriesArr = categories.map((obj) => obj['name']);
-    const isIncludesCategories = req.body.categories.every((c) =>
-      categoriesArr.includes(c)
-    );
-    if (!isIncludesCategories)
-      return res.status(400).send('Not allowed categories');
+  if (!user.roles.includes('FARM_OWNER'))
+    return res.status(400).send('The user is not farm owner');
 
-    let farm = await Farm.findOne({ name: req.body.name });
-    if (farm)
-      return res.status(400).send('The farm with given name already exists');
+  let farm = await Farm.findOne({ name: req.body.name });
+  if (farm)
+    return res.status(400).send('The farm with given name already exists');
 
-    farm = new Farm({
-      name: req.body.name,
-      categories: req.body.categories,
-      phone: req.body.phone,
-      fee: req.body.fee,
-      farmOwner: {
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
-    });
+  const categories = await Category.find().select({ name: 1, _id: 0 });
 
-    farm = await farm.save();
-    res.send(farm);
-  } catch (e) {
-    throw new Error(e);
-    // res.status(500).send('Unexpected error occurred: ', e);
-  }
+  const areCategoriesExist = checkCategoriesIfExist(
+    categories,
+    req.body.categories
+  );
+  if (!areCategoriesExist)
+    return res.status(400).send('Not allowed categories');
+
+  farm = createFarm(user, req.body);
+
+  farm = await farm.save();
+  res.send(farm);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [auth, farmOwner], async (req, res) => {
   const { error } = validate(req.body);
   if (error) res.status(400).send(error.details[0].message);
 
-  try {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Farm.');
 
+  const user = await User.findById(req.body.userId);
+  if (!user) return res.status(400).send('Invalid User.');
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Farm.');
+  if (!user.roles.includes('FARM_OWNER'))
+    return res.status(400).send('The user is not farm owner');
 
-    const user = await User.findById(req.body.farmOwnerId);
-    if (!user)
-      return res
-        .status(404)
-        .send('The farm owner with given ID has not been found');
-    if (!user.roles.includes('FARM_OWNER'))
-      return res.status(403).send("The user doesn't have permission");
+  const categories = await Category.find().select({ name: 1, _id: 0 });
 
-    const categories = await Category.find().select({ name: 1, _id: 0 });
-    const categoriesArr = categories.map((obj) => obj['name']);
-    const isIncludesCategories = req.body.categories.every((c) =>
-      categoriesArr.includes(c)
-    );
-    if (!isIncludesCategories)
-      return res.status(400).send('Not allowed categories');
+  const areCategoriesExist = checkCategoriesIfExist(
+    categories,
+    req.body.categories
+  );
+  if (!areCategoriesExist)
+    return res.status(400).send('Not allowed categories');
 
-    let farm = await Farm.findById(req.params.id);
-    if (!farm)
-      res.status(404).send('The farm with given ID has not been found');
+  let farm = await Farm.findById(req.params.id);
+  if (!farm) res.status(404).send('The farm with given ID has not been found');
 
-    (farm.name = req.body.name),
-      (farm.categories = req.body.categories),
-      (farm.phone = req.body.phone),
-      (farm.fee = req.body.fee),
-      (farm.farmOwner = {
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      });
-    farm = await farm.save();
-    res.send(farm);
-  } catch (e) {
-    res.status(500).send('Unexpected error: ', e);
-  }
+  updateFarm(farm, req.body);
+
+  farm = await farm.save();
+  res.send(farm);
 });
 
-router.delete('/:id', async (req, res) => {
-  try {
+router.delete('/:id', [auth, farmOwner], async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Farm.');
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Farm.');
+  let farm = await Farm.findByIdAndRemove(req.params.id);
+  if (!farm) res.status(404).send('The farm with given ID has not been found');
 
-    let farm = await Farm.findByIdAndRemove(req.params.id);
-    if (!farm)
-      res.status(404).send('The farm with given ID has not been found');
-
-    res.send(farm);
-  } catch (error) {
-    res.status(500).send('Unexpected error: ', e);
-  }
+  res.send(farm);
 });
+
+function checkCategoriesIfExist(existCategories, categories) {
+  const categoriesArr = existCategories.map((obj) => obj['name']);
+  const isIncludesCategories = categories.every((c) =>
+    categoriesArr.includes(c)
+  );
+
+  return isIncludesCategories;
+}
 
 module.exports = router;

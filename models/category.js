@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
 const NAME_MIN_LENGTH = 3;
-const NAME_MAX_LENGTH = 30;
+const NAME_MAX_LENGTH = 50;
 
 const categorySchema = new mongoose.Schema({
 

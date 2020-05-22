@@ -1,87 +1,62 @@
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const mongoose = require('mongoose');
 const { Category, validate } = require('../models/category');
 const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  try {
-    const categories = await Category.find().sort({ name: 1 });
-    res.send(categories);
-  } catch (e) {
-    res.status(500).send(e);
-  }
+  const categories = await Category.find().sort({ name: 1 });
+  res.send(categories);
 });
 
 router.get('/:id', async (req, res) => {
-  try {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Category.');
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Category.');
+  const category = await Category.findById(req.params.id);
+  if (!category)
+    return res.status(404).send('The category with given ID has no been found');
 
-    let category = await Category.findById(req.params.id);
-    if (!category)
-      return res
-        .status(404)
-        .send('The category with given ID has no been found');
-
-    res.send(category);
-  } catch (e) {
-    res.status(500).send('Unexpected error: ', e);
-  }
+  res.send(category);
 });
 
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let category = new Category({ name: req.body.name });
-  try {
-    category = await category.save();
-    res.send(category);
-  } catch (e) {
-    res.status(500).send('Unexpected error occurred: ', e);
-  }
+  category = await category.save();
+  res.send(category);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) res.status(400).send(error.details[0].message);
 
-  try {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Category.');
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Category.');
+  let category = await Category.findById(req.params.id);
+  if (!category)
+    res.status(404).send('The category with given ID has not been found');
 
-    let category = await Category.findById(req.params.id);
-    if (!category)
-      res.status(404).send('The category with given ID has not been found');
+  category.name = req.body.name;
+  category = await category.save();
 
-    category.name = req.body.name;
-    category = await category.save();
-    res.send(category);
-  } catch (e) {
-    res.status(500).send('Unexpected error: ', e);
-  }
+  res.send(category);
 });
 
-router.delete('/:id', async (req, res) => {
-  try {
-
+router.delete('/:id',[auth, admin], async (req, res) => {
+  
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400)
-        .send('Invalid Category.');
+      return send.status(400).send('Invalid Category.');
 
     let category = await Category.findByIdAndRemove(req.params.id);
     if (!category)
       res.status(404).send('The category with given ID has not been found');
 
     res.send(category);
-  } catch (error) {
-    res.status(500).send('Unexpected error: ', e);
-  }
 });
 
 module.exports = router;
