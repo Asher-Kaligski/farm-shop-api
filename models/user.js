@@ -15,6 +15,29 @@ const EMAIL_MAX_LENGTH = 255;
 const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 1024;
 
+const userShortSchema = new mongoose.Schema({
+ 
+  firstName: {
+    type: String,
+    required: true,
+    minlength: NAME_MIN_LENGTH,
+    maxlength: NAME_MAX_LENGTH,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    minlength: NAME_MIN_LENGTH,
+    maxlength: NAME_MAX_LENGTH,
+  },
+  phone: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: PHONE_MIN_LENGTH,
+    maxlength: PHONE_MAX_LENGTH,
+  }
+});
+
 const userSchema = new mongoose.Schema({
   roles: {
     type: Array,
@@ -96,3 +119,4 @@ module.exports.EMAIL_MIN_LENGTH = EMAIL_MIN_LENGTH;
 module.exports.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 module.exports.User = User;
 module.exports.validate = validateUser;
+module.exports.userShortSchema = userShortSchema;

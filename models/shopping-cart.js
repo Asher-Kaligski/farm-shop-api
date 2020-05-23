@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const {PRICE_MIN , PRICE_MAX} = require('./product');
+const {userShortSchema} = require('./user');
 
 
 const CATEGORY_MIN_LENGTH = 2;
@@ -7,9 +9,6 @@ const CATEGORY_MAX_LENGTH = 30;
 
 const TITLE_MIN_LENGTH = 2;
 const TITLE_MAX_LENGTH = 30;
-
-const PRODUCT_PRICE_MIN = 0.01;
-const PRODUCT_PRICE_MAX = 10000;
 
 const ITEM_QUANTITY_MIN = 0;
 const ITEM_QUANTITY_MAX = 1000;
@@ -37,8 +36,8 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: PRODUCT_PRICE_MIN,
-    max: PRODUCT_PRICE_MAX,
+    min: PRICE_MIN,
+    max: PRICE_MAX,
     get: v => v.toFixed(2),
     set: v => v.toFixed(2)
   },
@@ -51,10 +50,7 @@ const productSchema = new mongoose.Schema({
 });
 
 
-const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String
-});
+
 
 const itemSchema = new mongoose.Schema({
 
@@ -85,7 +81,7 @@ const shoppingCartSchema = new mongoose.Schema({
     required: true
   },
   customer: {
-    type: userSchema,
+    type: userShortSchema,
     required: true
   },
   items: [itemSchema],
@@ -191,6 +187,22 @@ function calculateTotalPrice(items) {
   return total;
 }
 
+function createShoppingCart(user,itemsArr, total) {
+  const shoppingCart = new ShoppingCart({
+    customer: {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone
+    },
+    items: itemsArr,
+    totalPrice: total,
+  });
+
+  return shoppingCart;
+}
+
+module.exports.createShoppingCart = createShoppingCart;
 module.exports.addItemsToArray = addItemsToArray;
 module.exports.removeItem = removeItem;
 module.exports.updateItem = updateItem;
@@ -199,3 +211,4 @@ module.exports.calculateTotalPrice = calculateTotalPrice;
 module.exports.ShoppingCart = ShoppingCart;
 module.exports.validateItem = validateItem;
 module.exports.validateShoppingCart = validateShoppingCart;
+module.exports.itemSchema = itemSchema;
