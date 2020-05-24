@@ -25,9 +25,8 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.14",
     "morgan": "^1.10.0",
-    "pm2": "^4.4.0",
     "winston": "^2.*",
-    "winston-mongodb": "^3.0.0"
+    "winston-mongodb": "^5.0.1"
   },
   "devDependencies": {
     "jest": "^26.0.1",

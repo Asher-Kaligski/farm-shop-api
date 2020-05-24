@@ -37,6 +37,11 @@ router.post('/', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not create product the farm has not been found');
 
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+    return res
+      .status(400)
+      .send('Could not create product, not allowed farm');
+
   const categories = await Farm.find({ _id: farm._id }).select({
     categories: 1,
     _id: 0,
@@ -68,6 +73,11 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not update product the farm has not been found');
 
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+    return res
+      .status(400)
+      .send('Could not update product, not allowed farm');
+
   const categories = await Farm.find({ _id: farm._id }).select({
     categories: 1,
     _id: 0,
@@ -87,9 +97,23 @@ router.delete('/:id', [auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return send.status(400).send('Invalid Product.');
 
-  let product = await Product.findByIdAndRemove(req.params.id);
+  let product = await Product.findById(req.params.id);
   if (!product)
     res.status(404).send('The product with given ID has not been found');
+
+  let farm = await Farm.findById(product.farm._id);
+  if (!farm)
+    return res
+      .status(400)
+      .send('Could not update product the farm has not been found');
+
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+    return res
+      .status(400)
+      .send('Could not delete product, not allowed farm');
+
+  product = await Product.findByIdAndRemove(req.params.id);
+
 
   res.send(product);
 });

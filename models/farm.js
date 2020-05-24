@@ -32,8 +32,7 @@ const farmSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: NAME_MIN_LENGTH,
-    maxlength: NAME_MAX_LENGTH,
-    unique: true
+    maxlength: NAME_MAX_LENGTH
   },
 
   categories: [String],
@@ -59,14 +58,14 @@ function validateFarm(farm) {
     categories: Joi.array().items(Joi.string()).required(),
     phone: Joi.string().min(PHONE_MIN_LENGTH).max(PHONE_MAX_LENGTH).required(),
     fee: Joi.number().min(1),
-    userId: Joi.objectId().required()
+    farmOwnerId: Joi.objectId().required()
 
   });
 
   return schema.validate(farm);
 }
 
-function createFarm(user, body){
+function createFarm(user, body) {
   const farm = new Farm({
     name: body.name,
     categories: body.categories,
@@ -82,13 +81,13 @@ function createFarm(user, body){
   return farm;
 }
 
-function updateFarm(farm, body){
+function updateFarm(farm, body) {
 
-    farm.name = body.name,
+  farm.name = body.name,
     farm.categories = body.categories,
     farm.phone = body.phone,
     farm.fee = body.fee
-    
+
 }
 
 module.exports.Farm = Farm;

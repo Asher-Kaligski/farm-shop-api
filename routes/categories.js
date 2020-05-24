@@ -25,6 +25,13 @@ router.post('/', [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  let categories = await Category.find().select({ name: 1, _id: 0 });
+
+  categories = categories.map((obj) => obj.name);
+
+  if (categories.includes(req.body.name))
+    return res.status(400).send('The category is already exists');
+
   let category = new Category({ name: req.body.name });
   category = await category.save();
   res.send(category);
@@ -41,22 +48,29 @@ router.put('/:id', [auth, admin], async (req, res) => {
   if (!category)
     res.status(404).send('The category with given ID has not been found');
 
+    let categories = await Category.find().select({ name: 1, _id: 0 });
+
+    categories = categories.map((obj) => obj.name);
+  
+    if (categories.includes(req.body.name))
+      return res.status(400).send('The category is already exists');
+
   category.name = req.body.name;
   category = await category.save();
 
   res.send(category);
 });
 
-router.delete('/:id',[auth, admin], async (req, res) => {
-  
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return send.status(400).send('Invalid Category.');
+router.delete('/:id', [auth, admin], async (req, res) => {
 
-    let category = await Category.findByIdAndRemove(req.params.id);
-    if (!category)
-      res.status(404).send('The category with given ID has not been found');
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return send.status(400).send('Invalid Category.');
 
-    res.send(category);
+  let category = await Category.findByIdAndRemove(req.params.id);
+  if (!category)
+    res.status(404).send('The category with given ID has not been found');
+
+  res.send(category);
 });
 
 module.exports = router;

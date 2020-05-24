@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Order, validate, createOrder } = require('../models/order');
-const { User } = require('../models/user');
 const { ShoppingCart } = require('../models/shopping-cart');
 const auth = require('../middleware/auth');
 const customer = require('../middleware/customer');
@@ -33,12 +32,13 @@ router.post('/', [auth, customer], async (req, res) => {
 
   let shoppingCart = await ShoppingCart.find(
     { _id: req.body.shoppingCartId },
-    { 'customer._id': req.body.customerId }
+    { 'customer._id': req.body.customerId },
+    { orderId : null }
   );
   if (!shoppingCart)
     return res
       .status(400)
-      .res('The shoppingCart with given ID has not been found');
+      .res('Invalid shoppingCart');
 
   let order = await Order.find(
     { 'shoppingCart._id': req.body.shoppingCartId },
@@ -65,29 +65,14 @@ router.post('/', [auth, customer], async (req, res) => {
 
 
 
-router.put('/:id',[auth, customer], async (req, res) => {
- 
-
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return send.status(400).send('Invalid Order.');
-
-    let order = await Order.findById(req.params.id);
-    if (!order)
-      res.status(404).send('The category with given ID has not been found');
-
-    order.name = req.body.name;
-    order = await order.save();
-    res.send(order);
-  
-});
-
 router.delete('/:id',[auth, customer], async (req, res) => {
+
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return send.status(400).send('Invalid Order.');
 
     let order = await Order.findByIdAndRemove(req.params.id);
     if (!order)
-      res.status(404).send('The category with given ID has not been found');
+      res.status(404).send('The order with given ID has not been found');
 
     res.send(order);
   

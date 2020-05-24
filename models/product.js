@@ -16,8 +16,7 @@ const farmSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: NAME_MIN_LENGTH,
-    maxlength: NAME_MAX_LENGTH,
-    unique: true,
+    maxlength: NAME_MAX_LENGTH
   },
 });
 
@@ -31,7 +30,7 @@ const productSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     default:
-      'http://www.publicdomainpictures.net/pictures/170000/velka/spinach-leaves-1461774375kTU.jpg',
+      '',
   },
   price: {
     type: Number,
@@ -48,7 +47,7 @@ const productSchema = new mongoose.Schema({
   farm: {
     type: farmSchema,
     required: true,
-  },
+  }
 });
 
 const Product = mongoose.model('Product', productSchema);
@@ -65,7 +64,8 @@ function validateProduct(product) {
     farmId: Joi.objectId().required(),
   });
 
-  return schema.validate(product, farm);
+  //return schema.validate(product, farm);
+  return schema.validate(product);
 }
 
 function createProduct(reqBody, farm) {

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "2b752a45-abb4-e2ed-3a68-481282193f69",
+		"_postman_id": "78377ce0-973c-639d-57c9-dce88902f259",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -12,99 +12,20 @@
 			"request": {
 				"url": "localhost:3000/api/users",
 				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "GET Category By ID",
-			"request": {
-				"url": "localhost:3000/api/categories/5ec1f9f4eb60661f182bcc42",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "GET categories",
-			"request": {
-				"url": "localhost:3000/api/categories",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE categories",
-			"request": {
-				"url": "localhost:3000/api/categories/5ec22c8087721117c0fd94e2",
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "PUT Category",
-			"request": {
-				"url": "localhost:3000/api/categories/5ec1f9f4eb60661f182bcc42",
-				"method": "PUT",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/json",
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAyOTg0ODd9.F2OHN9B0sLT7qs5Qon7mzaXbO11SxNsg4_bK0WD1dVU",
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Bread\"\n}"
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "POST categories",
-			"request": {
-				"url": "localhost:3000/api/categories",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Seasonings and Spices\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "POST users",
+			"name": "users POST",
 			"request": {
 				"url": "localhost:3000/api/users",
 				"method": "POST",
@@ -117,78 +38,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"FarmOwner2\",\n\t\"lastName\": \"FarmOwner2\",\n\t\"phone\": \"1234567\",\n\t\"email\": \"farmowner2@gmail.com\",\n\t\"password\": \"Afds6546\"\n}"
+					"raw": "{\n\t\"firstName\": \"Customer3\",\n\t\"lastName\": \"Customer3\",\n\t\"phone\" : \"654654\",\n\t\"email\": \"Customer3@gmail.com\",\n\t\"password\": \"Customer3\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "GET users BY Id",
+			"name": "Auth",
 			"request": {
-				"url": "localhost:3000/api/users/5ec36f3ecb0b7832443cc245",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "PUT users",
-			"request": {
-				"url": "localhost:3000/api/users/5ec36f3ecb0b7832443cc245",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"Dete\",\n\t\"lastName\": \"Customer\",\n\t\"phone\": \"45654654\",\n\t\"email\": \"dustomer1@gmail.com\",\n\t\"password\": \"Fds65465\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE users",
-			"request": {
-				"url": "localhost:3000/api/users/5ec36f3ecb0b7832443cc245",
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "GET farms",
-			"request": {
-				"url": "localhost:3000/api/farms",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Farms POST",
-			"request": {
-				"url": "localhost:3000/api/farms",
+				"url": "http://localhost:3000/api/auth",
 				"method": "POST",
 				"header": [
 					{
@@ -199,32 +58,23 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"FruitsFarm\",\n\t\"categories\": [\"Fruits\"],\n\t\"phone\": \"6546546\",\n\t\"farmOwnerId\": \"5ec4018bab882113f0fe4f67\"\n}"
+					"raw": "{\n\t\"email\": \"farmowner1@gmail.com\",\n\t\"password\": \"FarmOwner1\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Farms GET By ID",
+			"name": "User PUT",
 			"request": {
-				"url": "localhost:3000/api/farms/5ec37a7e05e9db290cac81ed",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Farm PUT",
-			"request": {
-				"url": "localhost:3000/api/farms/5ec3a6cff740a12d80e8865c",
+				"url": "localhost:3000/api/users/5eca059feec8301d781edcc6",
 				"method": "PUT",
 				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDU2N2VlYzgzMDFkNzgxZWRjYzUiLCJyb2xlcyI6WyJGQVJNX09XTkVSIl0sImlhdCI6MTU5MDMwMjI3Nn0._ACubyw3sqqopJO2wMdIa-T99ROajoMXqX-MAoF5Yho",
+						"description": ""
+					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
@@ -233,22 +83,192 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"BreadFarm\",\n\t\"categories\": [\"Bread\"],\n\t\"phone\": \"6546544565467\",\n\t\"farmOwnerId\": \"5ec36e4ccb0b7832443cc243\"\n}"
+					"raw": "{\n\t\"firstName\": \"FarmOwner1\",\n\t\"lastName\": \"FarmOwner1\",\n\t\"phone\" : \"654654543\",\n\t\"email\": \"FarmOwner1@gmail.com\",\n\t\"password\": \"FarmOwner1\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Farm DELETE",
+			"name": "USER GET Me",
 			"request": {
-				"url": "localhost:3000/api/farms/5ec37b6705e9db290cac81ef",
-				"method": "DELETE",
+				"url": "localhost:3000/api/users/me",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDU2N2VlYzgzMDFkNzgxZWRjYzUiLCJyb2xlcyI6WyJGQVJNX09XTkVSIl0sImlhdCI6MTU5MDMwMzA4NX0.Ne1YRFqx6eS_pkiEQintdbDGpR0oc63fZMmoAuSxwu0",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Categories GET",
+			"request": {
+				"url": "localhost:3000/api/categories",
+				"method": "GET",
 				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Categories POST",
+			"request": {
+				"url": "localhost:3000/api/categories",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMDU4MzR9.TwMUc7vSjyaSexHqapCYnGsUpBYmmIt_ngfRPru9Wyg",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"name\" : \"Vegetables1\"\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Categories PUT",
+			"request": {
+				"url": "localhost:3000/api/categories/5eca20f37199432d307df69b",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMDUxNjd9.ltgISHhlcRc1RwgllysyyjFgdtXzuLmfNBivK4gAGBA",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Dairy1\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Categories DELETE",
+			"request": {
+				"url": "localhost:3000/api/categories/5eca20f07199432d307df69a",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMDUzNDZ9.0m-0njWCgh2DuLbNznj-hl405C65PMuXDVXtvyTynrk",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Farms GET",
+			"request": {
+				"url": "localhost:3000/api/farms",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Frams POST",
+			"request": {
+				"url": "localhost:3000/api/farms",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMDg1NjZ9.cbdyE0xbz2OelwU91vuKySCPmE90UN8cgZYTL_BIrlk",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Whispering Pines - Dairy--\",\n\t\"categories\": [\"Seasonings and Spices\", \"Dairy\"],\n\t\"phone\": \"0987908fds790\",\n\t\"farmOwnerId\": \"5eca05aeeec8301d781edcc7\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Farm GET BY ID",
+			"request": {
+				"url": "localhost:3000/api/farms/5eca2d02adbe2931946e3d5c",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Farm PUT",
+			"request": {
+				"url": "localhost:3000/api/farms/5eca2d02adbe2931946e3d5c",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTA0Mjd9.WEQYgV4Um-HmZdUkYzB9v_4VtzOO9qeHr_TcDe7PRJM",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Whispering Pines-Dairy\",\n\t\"categories\": [\"Seasonings and Spices\", \"Dairy\", \"Bread\"],\n\t\"phone\": \"0987908790\",\n\t\"farmOwnerId\": \"5eca05aeeec8301d781edcc7\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Farms DELETE",
+			"request": {
+				"url": "localhost:3000/api/farms/5eca379cc79aa725bc9e6556",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTEwMjJ9.kDkPqnc6jZTU4E9OM3FcSwNxIDFRis24v7nTE63Me6U",
+						"description": ""
+					}
+				],
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -259,40 +279,22 @@
 				"url": "localhost:3000/api/products",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Farms POST ",
+			"name": "Product Post",
 			"request": {
 				"url": "localhost:3000/api/products",
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/json",
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTE3Mzh9.M5CKrzyKAb7aw-8jr0cJ2y46JYNgUAmnqrsXi8Hsq0E",
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"category\": \"Vegetables\",\n\t\"price\": 2.7,\n\t\"title\": \"onion\",\n\t\"farmId\": \"5ec3b1c85cb6ac219402036f\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Products Post",
-			"request": {
-				"url": "http://localhost:3000/api/products",
-				"method": "POST",
-				"header": [
+					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
@@ -301,87 +303,24 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"category\": \"Vegetables\",\n\t\"price\": 5.1,\n\t\"title\":\"carrots\",\n\t\"farmId\": \"5ec418a799886f3b5707cbcb\"\n}"
+					"raw": "{\n\t\"category\": \"Bread\",\n\t\"price\": 2.3,\n\t\"title\": \"Baked Bread\",\n\t\"farmId\": \"5eca2d02adbe2931946e3d5c\"\n\t\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "ShoppingCarts GET",
+			"name": "Products PUT",
 			"request": {
-				"url": "localhost:3000/api/shoppingCarts",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "ShoppingCarts POST",
-			"request": {
-				"url": "localhost:3000/api/shoppingCarts",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"userId\": \"5ec400cbab882113f0fe4f64\",\n\t\"items\": [\n\t\t{\n\t\t\t\"productId\": \"5ec4201d668e7444e415de0e\",\n\t\t\t\"quantity\": 4\n\t\t},\n\t\t{\n\t\t\t\"productId\": \"5ec4203e668e7444e415de10\",\n\t\t\t\"quantity\": 13\n\t\t}\n\t\t]\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "ShoppingCarts GET BY ID",
-			"request": {
-				"url": "localhost:3000/api/shoppingCarts/5ec427f0f1958e4e50ac8959",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "ShoppingCart PUT",
-			"request": {
-				"url": "localhost:3000/api/shoppingCarts/5ec56144f060e532fa7aa628",
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"productId\": \"5ec42050668e7444e415de12\",\n\t\"quantity\": 130\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "ShoppingCart PUT",
-			"request": {
-				"url": "localhost:3000/api/shoppingCarts/5ec42a4eedd53f519d400749",
+				"url": "localhost:3000/api/products/5eca3cecc5156e303844cc0b",
 				"method": "PUT",
 				"header": [
 					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTI1Njd9.0tkxr2Q40ksTiFNGxJTQH1c434boklSsci26B5lCcRI",
+						"description": ""
+					},
+					{
 						"key": "Content-Type",
 						"value": "application/json",
 						"description": ""
@@ -389,19 +328,8 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"productId\": \"5ec4203e668e7444e415de10\",\n\t\"quantity\": \"9\"\n}"
+					"raw": "{\n\t\"category\": \"Bread\",\n\t\"price\": 1.54,\n\t\"title\": \"Lavash Bread\",\n\t\"farmId\": \"5eca2d02adbe2931946e3d5c\",\n\t\"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Fabrication_du_lavash_%C3%A0_Noravank_%286%29.jpg/1280px-Fabrication_du_lavash_%C3%A0_Noravank_%286%29.jpg\"\n\t\n}"
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "ShoppinCart DELETE",
-			"request": {
-				"url": "localhost:3000/api/shoppingCarts/5ec5f5a80ecc551d7414fe55",
-				"method": "DELETE",
-				"header": [],
-				"body": {},
 				"description": ""
 			},
 			"response": []

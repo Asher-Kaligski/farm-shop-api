@@ -16,7 +16,7 @@ const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 1024;
 
 const userShortSchema = new mongoose.Schema({
- 
+
   firstName: {
     type: String,
     required: true,

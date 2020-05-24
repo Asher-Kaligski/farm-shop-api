@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const shippingSchema = require('../models/shipping');
+const {shippingSchema, joiShippingSchema} = require('../models/shipping');
 const {
   itemSchema,
   TOTAL_PRICE_MIN,
@@ -48,15 +48,19 @@ function createOrder(shoppingCart, shipping) {
 
 const Order = mongoose.model('Order', orderSchema);
 
+
+
 function validateOrder(order) {
   const schema = Joi.object({
     customerId: Joi.objectId().required(),
     shoppingCartId: Joi.objectId().required(),
-    shipping: Joi.object(),
+    shipping: Joi.items(joiShippingSchema).allow(null).allow('').required(),
   });
 
   return schema.validate(order);
 }
+
+
 
 module.exports.createOrder = createOrder;
 module.exports.Order = Order;

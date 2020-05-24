@@ -2,7 +2,7 @@ require('express-async-errors');
 const winston = require('winston');
 require('winston-mongodb');
 const error = require('./middleware/error');
-const startupDebugger = require('debug')('app:startup'); 
+const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
 const requestDebugger = require('debug')('app:routes');
 const exceptionDebugger = require('debug')('app:uncaught-exception');
@@ -27,7 +27,7 @@ const orders = require('./routes/orders');
 winston.add(winston.transports.File, {
   filename: 'error.log',
   level: 'error',
-  handleExceptions : true
+  handleExceptions: true
 });
 
 winston.handleExceptions(winston.transports.File, {

@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Farm.');
+    return res.status(400).send('Invalid Farm.');
 
   let farm = await Farm.findById(req.params.id);
   if (!farm)
@@ -27,8 +27,11 @@ router.post('/', [auth, farmOwner], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = await User.findById(req.body.userId);
+  const user = await User.findById(req.body.farmOwnerId);
   if (!user) return res.status(400).send('Invalid User.');
+
+  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes('ADMIN'))
+    return res.status(400).send('Invalid farm owner');
 
   if (!user.roles.includes('FARM_OWNER'))
     return res.status(400).send('The user is not farm owner');
@@ -59,8 +62,11 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return send.status(400).send('Invalid Farm.');
 
-  const user = await User.findById(req.body.userId);
+  const user = await User.findById(req.body.farmOwnerId);
   if (!user) return res.status(400).send('Invalid User.');
+
+  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes('ADMIN'))
+    return res.status(400).send('Invalid farm owner');
 
   if (!user.roles.includes('FARM_OWNER'))
     return res.status(400).send('The user is not farm owner');
