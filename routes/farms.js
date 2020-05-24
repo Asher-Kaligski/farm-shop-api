@@ -1,5 +1,6 @@
 const auth = require('../middleware/auth');
 const farmOwner = require('../middleware/farm-owner');
+const {ADMIN, FARM_OWNER} = require('../constants/roles');
 const mongoose = require('mongoose');
 const { Farm, validate, createFarm, updateFarm } = require('../models/farm');
 const { User } = require('../models/user');
@@ -30,10 +31,10 @@ router.post('/', [auth, farmOwner], async (req, res) => {
   const user = await User.findById(req.body.farmOwnerId);
   if (!user) return res.status(400).send('Invalid User.');
 
-  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes('ADMIN'))
+  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes(ADMIN))
     return res.status(400).send('Invalid farm owner');
 
-  if (!user.roles.includes('FARM_OWNER'))
+  if (!user.roles.includes(FARM_OWNER))
     return res.status(400).send('The user is not farm owner');
 
   let farm = await Farm.findOne({ name: req.body.name });
@@ -65,10 +66,10 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
   const user = await User.findById(req.body.farmOwnerId);
   if (!user) return res.status(400).send('Invalid User.');
 
-  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes('ADMIN'))
+  if (req.body.farmOwnerId !== req.user._id && !req.user.roles.includes(ADMIN))
     return res.status(400).send('Invalid farm owner');
 
-  if (!user.roles.includes('FARM_OWNER'))
+  if (!user.roles.includes(FARM_OWNER))
     return res.status(400).send('The user is not farm owner');
 
   const categories = await Category.find().select({ name: 1, _id: 0 });
@@ -84,6 +85,9 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
   if (!farm) res.status(404).send('The farm with given ID has not been found');
 
   updateFarm(farm, req.body);
+
+  if(req.user.roles.includes(ADMIN))
+  farm.fee = req.body.fee
 
   farm = await farm.save();
   res.send(farm);

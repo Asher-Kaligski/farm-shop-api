@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"farm-shop.farms"}],"uuid":"d0ba62c87f98483e9e1ea44b6658bf14"}
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "farm-shop.farms" } ] }

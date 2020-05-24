@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "78377ce0-973c-639d-57c9-dce88902f259",
+		"_postman_id": "39564a0d-ca43-49d0-5b19-5c18bbda7ea2",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -19,7 +19,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -38,7 +41,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"Customer3\",\n\t\"lastName\": \"Customer3\",\n\t\"phone\" : \"654654\",\n\t\"email\": \"Customer3@gmail.com\",\n\t\"password\": \"Customer3\"\n}"
+					"raw": "{\n\t\"firstName\": \"Admin\",\n\t\"lastName\": \"Admin\",\n\t\"phone\" : \"654654\",\n\t\"email\": \"fullstack.number1@gmail.com\",\n\t\"password\": \"rimon2803\"\n}"
 				},
 				"description": ""
 			},
@@ -67,12 +70,12 @@
 		{
 			"name": "User PUT",
 			"request": {
-				"url": "localhost:3000/api/users/5eca059feec8301d781edcc6",
+				"url": "localhost:3000/api/users/5eca9f93c4d8800ef7ea6921",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDU2N2VlYzgzMDFkNzgxZWRjYzUiLCJyb2xlcyI6WyJGQVJNX09XTkVSIl0sImlhdCI6MTU5MDMwMjI3Nn0._ACubyw3sqqopJO2wMdIa-T99ROajoMXqX-MAoF5Yho",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhYWIxMWY4M2RlMDIyYzdhMDViMWYiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzNDA0NDR9.u_jmk5-akTIHZWo5bIey1N7M5t7Fu4JMClw5oL0Ti1M",
 						"description": ""
 					},
 					{
@@ -83,7 +86,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"FarmOwner1\",\n\t\"lastName\": \"FarmOwner1\",\n\t\"phone\" : \"654654543\",\n\t\"email\": \"FarmOwner1@gmail.com\",\n\t\"password\": \"FarmOwner1\"\n}"
+					"raw": "{\n\t\"firstName\": \"FarmOwner3\",\n\t\"lastName\": \"FarmOwner3\",\n\t\"phone\" : \"654654543\",\n\t\"email\": \"FarmOwner3@gmail.com\",\n\t\"password\": \"FarmOwner3\",\n\t\"roles\": [\"FARM_OWNER\"]\n}"
 				},
 				"description": ""
 			},
@@ -101,7 +104,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -112,7 +118,10 @@
 				"url": "localhost:3000/api/categories",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -179,7 +188,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -190,7 +202,10 @@
 				"url": "localhost:3000/api/farms",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -226,7 +241,10 @@
 				"url": "localhost:3000/api/farms/5eca2d02adbe2931946e3d5c",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -268,7 +286,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -279,7 +300,10 @@
 				"url": "localhost:3000/api/products",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -292,7 +316,7 @@
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTE3Mzh9.M5CKrzyKAb7aw-8jr0cJ2y46JYNgUAmnqrsXi8Hsq0E",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhYWIxMWY4M2RlMDIyYzdhMDViMWYiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzNDA0NDR9.u_jmk5-akTIHZWo5bIey1N7M5t7Fu4JMClw5oL0Ti1M",
 						"description": ""
 					},
 					{
@@ -303,7 +327,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"category\": \"Bread\",\n\t\"price\": 2.3,\n\t\"title\": \"Baked Bread\",\n\t\"farmId\": \"5eca2d02adbe2931946e3d5c\"\n\t\n}"
+					"raw": "{\n\t\"category\": \"Vegetables\",\n\t\"price\": 2.35,\n\t\"title\": \"Cauliflower\",\n\t\"farmId\": \"5ecab5e9c9389f2fc8fd29e8\",\n\t\"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Cauliflowers_-_20051021.jpg/1280px-Cauliflowers_-_20051021.jpg\"\n\t\n}"
 				},
 				"description": ""
 			},
@@ -329,6 +353,160 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"category\": \"Bread\",\n\t\"price\": 1.54,\n\t\"title\": \"Lavash Bread\",\n\t\"farmId\": \"5eca2d02adbe2931946e3d5c\",\n\t\"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Fabrication_du_lavash_%C3%A0_Noravank_%286%29.jpg/1280px-Fabrication_du_lavash_%C3%A0_Noravank_%286%29.jpg\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST categories",
+			"request": {
+				"url": "localhost:3000/api/categories",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhYWIxMWY4M2RlMDIyYzdhMDViMWYiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzNDA0NDR9.u_jmk5-akTIHZWo5bIey1N7M5t7Fu4JMClw5oL0Ti1M",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Vegetables\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Farms POST",
+			"request": {
+				"url": "localhost:3000/api/farms",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhYWIxMWY4M2RlMDIyYzdhMDViMWYiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzNDA0NDR9.u_jmk5-akTIHZWo5bIey1N7M5t7Fu4JMClw5oL0Ti1M",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n\"name\": \"Whispering Pines\",\n\"categories\": [\n    \"Fruits\"\n  ],\n  \"phone\": \"65465466\",\n  \"farmOwnerId\": \"5eca9f93c4d8800ef7ea6921\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST users",
+			"request": {
+				"url": "localhost:3000/api/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"FarmOwner7\",\n\t\"lastName\": \"FarmOwner7\",\n\t\"phone\": \"1234566546\",\n\t\"email\": \"farmowner11@gmail.com\",\n\t\"password\": \"Afds65hgf\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCarts GET",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhYWIxMWY4M2RlMDIyYzdhMDViMWYiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzNDA0NDR9.u_jmk5-akTIHZWo5bIey1N7M5t7Fu4JMClw5oL0Ti1M",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCarts Post",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhOWZiY2M0ZDg4MDBlZjdlYTY5MjIiLCJyb2xlcyI6WyJDVVNUT01FUiJdLCJpYXQiOjE1OTAzNDYyMDF9.G6hlnHQD5bQynBT6aUJ1V2J7yPVrbaZ1kLYDZaoS1J8",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"items\": [],\n\t\"userId\": \"5eca9fbcc4d8800ef7ea6922\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "SoppingCart   GET BY ID ",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ecac65188c7f34465a18ef5",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhOWZjN2M0ZDg4MDBlZjdlYTY5MjMiLCJyb2xlcyI6WyJDVVNUT01FUiJdLCJpYXQiOjE1OTAzNDY4ODZ9.iMyr7gCvrFSBK586ImbqcYmyED3mPY4h07GBuP1DSJs",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ShoppingCart PATCH",
+			"request": {
+				"url": "localhost:3000/api/shoppingCarts/5ecac65188c7f34465a18ef5",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhOWZjN2M0ZDg4MDBlZjdlYTY5MjMiLCJyb2xlcyI6WyJDVVNUT01FUiJdLCJpYXQiOjE1OTAzNDY4ODZ9.iMyr7gCvrFSBK586ImbqcYmyED3mPY4h07GBuP1DSJs",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"productId\": \"5ecabbe79b440d342b83aa5d\",\n\t\"quantity\": 0\n}"
 				},
 				"description": ""
 			},

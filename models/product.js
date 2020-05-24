@@ -64,7 +64,6 @@ function validateProduct(product) {
     farmId: Joi.objectId().required(),
   });
 
-  //return schema.validate(product, farm);
   return schema.validate(product);
 }
 

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const {CUSTOMER} = require('../constants/roles');
 
 const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 30;
@@ -41,7 +42,7 @@ const userShortSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   roles: {
     type: Array,
-    default: ['CUSTOMER'],
+    default: [CUSTOMER],
   },
   firstName: {
     type: String,
@@ -110,6 +111,7 @@ function validateUser(user) {
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9]{8,15}$'))
       .required(),
+    roles: Joi.array().items(Joi.string())
   });
 
   return schema.validate(user);

@@ -7,7 +7,9 @@ const NAME_MAX_LENGTH = 30;
 const PHONE_MIN_LENGTH = 5;
 const PHONE_MAX_LENGTH = 30;
 
-const DEFAULT_FEE = 5;
+const FEE_DEFAULT = 5;
+const FEE_MIN = 1;
+const FEE_MAX = 50;
 
 const farmSchema = new mongoose.Schema({
   farmOwner: {
@@ -44,7 +46,9 @@ const farmSchema = new mongoose.Schema({
   },
   fee: {
     type: Number,
-    default: DEFAULT_FEE,
+    default: FEE_DEFAULT,
+    min: FEE_MIN,
+    max: FEE_MAX
   },
 
   imgUrl: String,
@@ -58,7 +62,8 @@ function validateFarm(farm) {
     categories: Joi.array().items(Joi.string()).required(),
     phone: Joi.string().min(PHONE_MIN_LENGTH).max(PHONE_MAX_LENGTH).required(),
     fee: Joi.number().min(1),
-    farmOwnerId: Joi.objectId().required()
+    farmOwnerId: Joi.objectId().required(),
+    fee: Joi.number().min(FEE_MIN).max(FEE_MAX).default(FEE_DEFAULT)
 
   });
 

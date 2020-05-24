@@ -1,6 +1,7 @@
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const customer = require('../middleware/customer');
+const { ADMIN } = require('../constants/roles');
 const mongoose = require('mongoose');
 const {
   ShoppingCart,
@@ -27,11 +28,19 @@ router.get('/:id', [auth, customer], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return send.status(400).send('Invalid ShoppingCart.');
 
-  const shoppingCart = await ShoppingCart.findById(req.params.id);
+  const shoppingCart = await ShoppingCart.findById(req.params.id).select({
+    __v: 0,
+  });
   if (!shoppingCart)
     return res
       .status(404)
       .send('The shopping cart with given ID has no been found');
+
+  if (
+    shoppingCart.customer._id.toString() !== req.user._id ||
+    !req.user.roles.includes(ADMIN)
+  )
+    return res.status(400).send('Invalid user');
 
   res.send(shoppingCart);
 });
@@ -43,7 +52,7 @@ router.post('/', [auth, customer], async (req, res) => {
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(400).send('Invalid User.');
 
-  if (!user.roles.includes('CUSTOMER'))
+  if (user._id.toString() !== req.user._id && !user.roles.includes(ADMIN))
     return res.status(400).send('Invalid user');
 
   const shoppingCarts = await ShoppingCart.find({
@@ -88,6 +97,12 @@ router.patch('/:id', [auth, customer], async (req, res) => {
   if (!shoppingCart)
     res.status(404).send('The shopping cart with given ID has not been found');
 
+  if (
+    shoppingCart.customer._id.toString() !== req.user._id &&
+    !user.roles.includes(ADMIN)
+  )
+    return res.status(400).send('Invalid user');
+
   const product = await Product.findById(req.body.productId);
   if (!product)
     res.status(404).send('The product with given ID has not been found');
@@ -120,9 +135,17 @@ router.delete('/:id', [auth, customer], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return send.status(400).send('Invalid ShoppingCart.');
 
-  let shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
+  let shoppingCart = await ShoppingCart.findById(req.params.id);
   if (!shoppingCart)
     res.status(404).send('The shoppingCart with given ID has not been found');
+
+  if (
+    shoppingCart.customer._id.toString() !== req.user._id &&
+    !user.roles.includes(ADMIN)
+  )
+    return res.status(400).send('Invalid user');
+
+  shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
 
   res.send(shoppingCart);
 });

@@ -1,6 +1,7 @@
 const auth = require('../middleware/auth');
 const farmOwner = require('../middleware/farm-owner');
 const mongoose = require('mongoose');
+const {ADMIN} = require('../constants/roles');
 const {
   Product,
   validate,
@@ -12,7 +13,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const products = await Product.find().sort({ price: 1 });
+  const products = await Product.find().sort({ price: 1 }).select({__v: 0});
   res.send(products);
 });
 
@@ -37,7 +38,7 @@ router.post('/', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not create product the farm has not been found');
 
-  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not create product, not allowed farm');
@@ -73,7 +74,7 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not update product the farm has not been found');
 
-  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not update product, not allowed farm');
@@ -107,7 +108,7 @@ router.delete('/:id', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not update product the farm has not been found');
 
-  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes('ADMIN'))
+  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not delete product, not allowed farm');

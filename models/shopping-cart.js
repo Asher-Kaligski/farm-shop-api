@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String,
-    default: "http://www.publicdomainpictures.net/pictures/170000/velka/spinach-leaves-1461774375kTU.jpg"
+    default: ''
   },
   price: {
     type: Number,
