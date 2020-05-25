@@ -36,9 +36,10 @@ router.get('/:id', [auth, customer], async (req, res) => {
   let order = await Order.findById(req.params.id).select({ __v: 0 });
   if (!order)
     return res.status(404).send('The order with given ID has no been found');
+    
 
-  if (!order.customer._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
-    return send.status(400).send('Invalid user.');
+  if (order.customer._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
+    return res.status(400).send('Invalid user.');
 
 
   res.send(order);

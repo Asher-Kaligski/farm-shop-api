@@ -39,8 +39,11 @@ router.get('/:id', [auth, customer], async (req, res) => {
       .status(404)
       .send('The shopping cart with given ID has no been found');
 
+    console.log('shoppingCart.customer._id.toString()', shoppingCart.customer._id.toString())
+    console.log('req.user._id', req.user._id)
+
   if (
-    shoppingCart.customer._id.toString() !== req.user._id ||
+    shoppingCart.customer._id.toString() !== req.user._id &&
     !req.user.roles.includes(ADMIN)
   )
     return res.status(400).send('Invalid user');
@@ -150,7 +153,7 @@ router.delete('/:id', [auth, customer], async (req, res) => {
 
   const order = await Order.find({'shoppingCart._id':shoppingCart._id });
   if (order.length > 0 ) 
-  await Order.findByIdAndRemove(order[0]._id);
+  return res.status(400).send('Not possible to delete ShoppingCart, the Order with this cart has been already created');
 
   shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
  
