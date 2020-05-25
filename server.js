@@ -8,6 +8,7 @@ require('./core/logging')();
 require('./core/routes')(app);
 require('./core/db')();
 require('./core/config')();
+require('./core/prod')(app);
 
 const port = process.env.PORT || 3000;
 
