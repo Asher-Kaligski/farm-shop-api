@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "farm-api",
-		"_postman_id": "39564a0d-ca43-49d0-5b19-5c18bbda7ea2",
+		"_postman_id": "4bff64e7-bcee-7ca8-5dfc-08407e428b1b",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -440,7 +440,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -482,7 +485,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -508,6 +514,115 @@
 					"mode": "raw",
 					"raw": "{\n\t\"productId\": \"5ecabbe79b440d342b83aa5d\",\n\t\"quantity\": 0\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Product Post",
+			"request": {
+				"url": "localhost:3000/api/products",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMTE3Mzh9.M5CKrzyKAb7aw-8jr0cJ2y46JYNgUAmnqrsXi8Hsq0E",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category\": \"Fruits\",\n\t\"price\": 5.99,\n\t\"title\": \"Strawberry\",\n\t\"farmId\": \"5eca4a8cc112ad24a08552f8\",\n\t\"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/e/e1/Strawberries.jpg\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Frams POST",
+			"request": {
+				"url": "localhost:3000/api/farms",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzMDg1NjZ9.cbdyE0xbz2OelwU91vuKySCPmE90UN8cgZYTL_BIrlk",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Whispering Pines\",\n\t\"categories\": [\"Fruits\"],\n\t\"phone\": \"0987908fds790\",\n\t\"farmOwnerId\": \"5eca05aeeec8301d781edcc7\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Orders GET",
+			"request": {
+				"url": "localhost:3000/api/orders",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDRmNjEwNDcwMzEwYTBiYWFmZTEiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE1OTAzODIyNTF9.14HrISjBZA1-sbupI7HkrjPPH6ALpt9T7CdKLPi__7c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Orders POST",
+			"request": {
+				"url": "localhost:3000/api/orders",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDVjZGVlYzgzMDFkNzgxZWRjYzgiLCJyb2xlcyI6WyJDVVNUT01FUiJdLCJpYXQiOjE1OTAzOTAwODV9.Wq4caG9dKFw2wyKFAtAswrkpRtXZ2TV-d2sn5pXvV9c",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customerId\": \"5eca05cdeec8301d781edcc8\",\n\t\"shoppingCartId\": \"5ecb3ff6df23cd309052225f\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "orders DELETE",
+			"request": {
+				"url": "localhost:3000/api/orders/5ecb976fe933a72e7445d4c7",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWNhMDVjZGVlYzgzMDFkNzgxZWRjYzgiLCJyb2xlcyI6WyJDVVNUT01FUiJdLCJpYXQiOjE1OTAzOTAwODV9.Wq4caG9dKFw2wyKFAtAswrkpRtXZ2TV-d2sn5pXvV9c",
+						"description": ""
+					}
+				],
+				"body": {},
 				"description": ""
 			},
 			"response": []

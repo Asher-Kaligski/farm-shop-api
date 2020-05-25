@@ -1,5 +1,5 @@
 {
-    "name": "My Express App - Production",
+    "name": "Farm Shop API - Production",
     "mail": {
         "host": "production-mail-server"
     }

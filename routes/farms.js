@@ -95,7 +95,7 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
 
 router.delete('/:id', [auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Farm.');
+    return res.status(400).send('Invalid Farm.');
 
   let farm = await Farm.findByIdAndRemove(req.params.id);
   if (!farm) res.status(404).send('The farm with given ID has not been found');

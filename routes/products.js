@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Product.');
+    return res.status(400).send('Invalid Product.');
 
   const product = await Product.findById(req.params.id);
   if (!product)
@@ -62,7 +62,7 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Product.');
+    return res.status(400).send('Invalid Product.');
 
   let product = await Product.findById(req.params.id);
   if (!product)
@@ -96,7 +96,7 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
 
 router.delete('/:id', [auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Product.');
+    return res.status(400).send('Invalid Product.');
 
   let product = await Product.findById(req.params.id);
   if (!product)

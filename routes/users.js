@@ -26,7 +26,7 @@ router.put('/:id', auth, async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid User.');
+    return res.status(400).send('Invalid User.');
 
   if (req.params.id !== req.user._id && !req.user.roles.includes(ADMIN))
     return res.status(400).send('Not allowed to update user');

@@ -37,11 +37,11 @@ const orderSchema = new mongoose.Schema({
 });
 
 function createOrder(shoppingCart, shipping) {
+  
   const order = new Order({
     customer: shoppingCart.customer,
     shipping: shipping,
-    items: shoppingCart.items,
-    totalPrice: shoppingCart.totalPrice,
+    shoppingCart: shoppingCart
   });
   return order;
 }
@@ -54,7 +54,7 @@ function validateOrder(order) {
   const schema = Joi.object({
     customerId: Joi.objectId().required(),
     shoppingCartId: Joi.objectId().required(),
-    shipping: Joi.items(joiShippingSchema).allow(null).allow('').required(),
+    shipping: joiShippingSchema,
   });
 
   return schema.validate(order);

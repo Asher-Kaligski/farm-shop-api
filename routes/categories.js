@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Category.');
+    return res.status(400).send('Invalid Category.');
 
   const category = await Category.findById(req.params.id);
   if (!category)
@@ -42,7 +42,7 @@ router.put('/:id', [auth, admin], async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Category.');
+    return res.status(400).send('Invalid Category.');
 
   let category = await Category.findById(req.params.id);
   if (!category)
@@ -64,7 +64,7 @@ router.put('/:id', [auth, admin], async (req, res) => {
 router.delete('/:id', [auth, admin], async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid Category.');
+    return res.status(400).send('Invalid Category.');
 
   let category = await Category.findByIdAndRemove(req.params.id);
   if (!category)

@@ -15,9 +15,12 @@ const {
   createShoppingCart,
 } = require('../models/shopping-cart');
 const { Product } = require('../models/product');
+const { Order } = require('../models/order');
 const { User } = require('../models/user');
 const express = require('express');
 const router = express.Router();
+
+
 
 router.get('/', [auth, admin], async (req, res) => {
   const shoppingCarts = await ShoppingCart.find().sort({ dateCreated: -1 });
@@ -26,7 +29,7 @@ router.get('/', [auth, admin], async (req, res) => {
 
 router.get('/:id', [auth, customer], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid ShoppingCart.');
+    return res.status(400).send('Invalid ShoppingCart.');
 
   const shoppingCart = await ShoppingCart.findById(req.params.id).select({
     __v: 0,
@@ -52,7 +55,7 @@ router.post('/', [auth, customer], async (req, res) => {
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(400).send('Invalid User.');
 
-  if (user._id.toString() !== req.user._id && !user.roles.includes(ADMIN))
+  if (user._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
     return res.status(400).send('Invalid user');
 
   const shoppingCarts = await ShoppingCart.find({
@@ -90,7 +93,7 @@ router.patch('/:id', [auth, customer], async (req, res) => {
   if (error) res.status(400).send(error.details[0].message);
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid ShoppingCart.');
+    return res.status(400).send('Invalid ShoppingCart.');
 
   let shoppingCart = await ShoppingCart.findById(req.params.id);
 
@@ -99,7 +102,7 @@ router.patch('/:id', [auth, customer], async (req, res) => {
 
   if (
     shoppingCart.customer._id.toString() !== req.user._id &&
-    !user.roles.includes(ADMIN)
+    !req.user.roles.includes(ADMIN)
   )
     return res.status(400).send('Invalid user');
 
@@ -133,7 +136,7 @@ router.patch('/:id', [auth, customer], async (req, res) => {
 
 router.delete('/:id', [auth, customer], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return send.status(400).send('Invalid ShoppingCart.');
+    return res.status(400).send('Invalid ShoppingCart.');
 
   let shoppingCart = await ShoppingCart.findById(req.params.id);
   if (!shoppingCart)
@@ -141,13 +144,19 @@ router.delete('/:id', [auth, customer], async (req, res) => {
 
   if (
     shoppingCart.customer._id.toString() !== req.user._id &&
-    !user.roles.includes(ADMIN)
+    !req.user.roles.includes(ADMIN)
   )
     return res.status(400).send('Invalid user');
 
+  const order = await Order.find({'shoppingCart._id':shoppingCart._id });
+  if (order.length > 0 ) 
+  await Order.findByIdAndRemove(order[0]._id);
+
   shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
+ 
 
   res.send(shoppingCart);
+
 });
 
 module.exports = router;
