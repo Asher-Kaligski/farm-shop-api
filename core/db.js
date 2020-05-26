@@ -1,17 +1,17 @@
 const winston = require('winston');
 const mongoose = require('mongoose');
+const config = require('config');
 
-const DB_URL = 'mongodb://localhost/farm-shop';
 
 module.exports = function () {
   mongoose
-    .connect(DB_URL, {
+    .connect(config.get('db'), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: true,
       useCreateIndex: true,
     })
     .then(() => {
-      winston.info(`Connected to the ${DB_URL}`);
+      winston.info(`Connected to the ${config.get('db')}`);
     });
 };
