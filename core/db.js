@@ -12,6 +12,6 @@ module.exports = function () {
       useCreateIndex: true,
     })
     .then(() => {
-      winston.info(`Connected to the ${config.get('db')}`);
+      winston.info(`Connected to the MongoDB...`);
     });
 };
