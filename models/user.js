@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const {CUSTOMER} = require('../constants/roles');
+const { CUSTOMER } = require('../constants/roles');
 
 const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 30;
@@ -17,7 +17,6 @@ const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 1024;
 
 const userShortSchema = new mongoose.Schema({
-
   firstName: {
     type: String,
     required: true,
@@ -36,7 +35,7 @@ const userShortSchema = new mongoose.Schema({
     trim: true,
     minlength: PHONE_MIN_LENGTH,
     maxlength: PHONE_MAX_LENGTH,
-  }
+  },
 });
 
 const userSchema = new mongoose.Schema({
@@ -83,7 +82,12 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function () {
   return jwt.sign(
-    { _id: this._id, roles: this.roles },
+    {
+      _id: this._id,
+      roles: this.roles,
+      firstName: this.firstName,
+      email: this.email
+    },
     config.get('jwtPrivateKey')
   );
 };
@@ -111,7 +115,7 @@ function validateUser(user) {
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9]{8,15}$'))
       .required(),
-    roles: Joi.array().items(Joi.string())
+    roles: Joi.array().items(Joi.string()),
   });
 
   return schema.validate(user);
