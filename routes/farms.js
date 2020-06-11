@@ -1,5 +1,6 @@
 const auth = require('../middleware/auth');
 const farmOwner = require('../middleware/farm-owner');
+const admin = require('../middleware/admin');
 const {ADMIN, FARM_OWNER} = require('../constants/roles');
 const mongoose = require('mongoose');
 const { Farm, validate, createFarm, updateFarm } = require('../models/farm');
@@ -8,12 +9,12 @@ const { Category } = require('../models/category');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/',[auth,admin], async (req, res) => {
   const farms = await Farm.find().sort({ name: 1 });
   res.send(farms);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',[auth,admin], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid Farm.');
 
@@ -24,7 +25,7 @@ router.get('/:id', async (req, res) => {
   res.send(farm);
 });
 
-router.get('/farmOwner/:id', async (req, res) => {
+router.get('/farmOwner/:id',[auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid FarmOwner.');
 
