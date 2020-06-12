@@ -39,8 +39,7 @@ router.get('/:id', [auth, customer], async (req, res) => {
       .status(404)
       .send('The shopping cart with given ID has no been found');
 
-    console.log('shoppingCart.customer._id.toString()', shoppingCart.customer._id.toString())
-    console.log('req.user._id', req.user._id)
+    
 
   if (
     shoppingCart.customer._id.toString() !== req.user._id &&

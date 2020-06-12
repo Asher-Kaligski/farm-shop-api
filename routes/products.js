@@ -38,7 +38,7 @@ router.post('/', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not create product the farm has not been found');
 
-  if (req.user._id.toString() !== farm.farmOwner._id.toString() && !req.user.roles.includes(ADMIN))
+  if (req.user._id !== farm.farmOwner._id.toString() && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not create product, not allowed farm');
@@ -74,7 +74,7 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not update product the farm has not been found');
 
-  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes(ADMIN))
+  if (req.user._id !== farm.farmOwner._id.toString() && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not update product, not allowed farm');
@@ -108,7 +108,7 @@ router.delete('/:id', [auth, farmOwner], async (req, res) => {
       .status(400)
       .send('Could not update product the farm has not been found');
 
-  if (req.user._id !== farm.farmOwner._id && !req.user.roles.includes(ADMIN))
+  if (req.user._id !== farm.farmOwner._id.toString() && !req.user.roles.includes(ADMIN))
     return res
       .status(400)
       .send('Could not delete product, not allowed farm');
