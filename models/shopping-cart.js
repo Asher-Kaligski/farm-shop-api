@@ -81,8 +81,9 @@ const shoppingCartSchema = new mongoose.Schema({
     required: true
   },
   customer: {
-    type: userShortSchema,
-    required: true
+    type: userShortSchema
+    // ,
+    // required: true
   },
   items: [itemSchema],
   totalPrice: {
@@ -121,8 +122,9 @@ function validateItem(item) {
 function validateShoppingCart(shoppingCart) {
 
   const schema = Joi.object({
-    items: Joi.array().items(joiItemSchema).allow(null).allow('').required(),
-    userId: Joi.objectId().required()
+    items: Joi.array().items(joiItemSchema).allow(null).allow('').required()
+    // ,
+    // userId: Joi.objectId().required()
   });
 
   return schema.validate(shoppingCart);
@@ -187,14 +189,23 @@ function calculateTotalPrice(items) {
   return total;
 }
 
-function createShoppingCart(user,itemsArr, total) {
+// function createShoppingCart(user,itemsArr, total) {
+//   const shoppingCart = new ShoppingCart({
+//     customer: {
+//       _id: user._id,
+//       firstName: user.firstName,
+//       lastName: user.lastName,
+//       phone: user.phone
+//     },
+//     items: itemsArr,
+//     totalPrice: total,
+//   });
+
+//   return shoppingCart;
+// }
+function createShoppingCart(itemsArr, total) {
   const shoppingCart = new ShoppingCart({
-    customer: {
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone: user.phone
-    },
+    
     items: itemsArr,
     totalPrice: total,
   });

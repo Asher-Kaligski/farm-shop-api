@@ -78,7 +78,7 @@ function createProduct(reqBody, farm) {
       name: farm.name,
     },
   });
-
+  
   return product;
 }
 
