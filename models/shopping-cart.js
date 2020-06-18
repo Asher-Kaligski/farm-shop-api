@@ -108,7 +108,7 @@ const ShoppingCart = mongoose.model('Shopping-Cart', shoppingCartSchema);
 
 const joiItemSchema = Joi.object({
 
-  productId: Joi.objectId().required(),
+  productId: Joi.string().required(),
   quantity: Joi.number().min(ITEM_QUANTITY_MIN).max(ITEM_QUANTITY_MAX).required()
 
 });
