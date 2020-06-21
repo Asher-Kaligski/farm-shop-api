@@ -101,16 +101,15 @@ const joiItemSchema = Joi.object({
 });
 
 function validateItem(item) {
-  console.log('item', item);
+  
   return joiItemSchema.validate(item);
 }
 
 function validateShoppingCart(shoppingCart) {
   const schema = Joi.object({
-    //items: Joi.array().items(joiItemSchema).allow(null).allow('').required()
-    items: Joi.array().includes(joiItemSchema).allow(null).allow('').required(),
-    // ,
-    // userId: Joi.objectId().required()
+    items: Joi.array().items(joiItemSchema).allow(null).allow('').required()
+    
+    
   });
 
   return schema.validate(shoppingCart);
