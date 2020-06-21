@@ -142,6 +142,28 @@ router.patch('/:id',  async (req, res) => {
 });
 
 //[auth, customer],
+router.delete('/items/:id',  async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send('Invalid ShoppingCart.');
+
+  let shoppingCart = await ShoppingCart.findById(req.params.id);
+  if (!shoppingCart)
+    res.status(404).send('The shoppingCart with given ID has not been found');
+
+  
+
+  const order = await Order.find({'shoppingCart._id':shoppingCart._id });
+  if (order.length > 0 ) 
+  return res.status(400).send('Not possible to delete ShoppingCart, the Order with this cart has been already created');
+
+  shoppingCart.items = [];
+  shoppingCart = await shoppingCart.save();
+ 
+
+  res.send(shoppingCart);
+
+});
+
 router.delete('/:id',  async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
