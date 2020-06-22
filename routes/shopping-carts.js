@@ -20,15 +20,13 @@ const { User } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
-
-
 router.get('/', [auth, admin], async (req, res) => {
   const shoppingCarts = await ShoppingCart.find().sort({ dateCreated: -1 });
   res.send(shoppingCarts);
 });
 
 //[auth, customer],
-router.get('/:id',  async (req, res) => {
+router.get('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
 
@@ -40,8 +38,6 @@ router.get('/:id',  async (req, res) => {
       .status(404)
       .send('The shopping cart with given ID has no been found');
 
-    
-
   // if (
   //   shoppingCart.customer._id.toString() !== req.user._id &&
   //   !req.user.roles.includes(ADMIN)
@@ -51,9 +47,8 @@ router.get('/:id',  async (req, res) => {
   res.send(shoppingCart);
 });
 
-
 //[auth, customer],
-router.post('/',  async (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validateShoppingCart(req.body);
   if (error) res.status(400).send(error.details[0].message);
 
@@ -93,9 +88,8 @@ router.post('/',  async (req, res) => {
   res.send(shoppingCart);
 });
 
-
 //[auth, customer],
-router.patch('/:id',  async (req, res) => {
+router.patch('/:id', async (req, res) => {
   const { error } = validateItem(req.body);
   if (error) res.status(400).send(error.details[0].message);
 
@@ -142,7 +136,7 @@ router.patch('/:id',  async (req, res) => {
 });
 
 //[auth, customer],
-router.delete('/items/:id',  async (req, res) => {
+router.delete('/items/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
 
@@ -150,21 +144,22 @@ router.delete('/items/:id',  async (req, res) => {
   if (!shoppingCart)
     res.status(404).send('The shoppingCart with given ID has not been found');
 
-  
-
-  const order = await Order.find({'shoppingCart._id':shoppingCart._id });
-  if (order.length > 0 ) 
-  return res.status(400).send('Not possible to delete ShoppingCart, the Order with this cart has been already created');
+  const order = await Order.find({ 'shoppingCart._id': shoppingCart._id });
+  if (order.length > 0)
+    return res
+      .status(400)
+      .send(
+        'Not possible to delete ShoppingCart, the Order with this cart has been already created'
+      );
 
   shoppingCart.items = [];
+  shoppingCart.totalPrice = 0;
   shoppingCart = await shoppingCart.save();
- 
 
   res.send(shoppingCart);
-
 });
 
-router.delete('/:id',  async (req, res) => {
+router.delete('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
 
@@ -178,15 +173,17 @@ router.delete('/:id',  async (req, res) => {
   // )
   //   return res.status(400).send('Invalid user');
 
-  const order = await Order.find({'shoppingCart._id':shoppingCart._id });
-  if (order.length > 0 ) 
-  return res.status(400).send('Not possible to delete ShoppingCart, the Order with this cart has been already created');
+  const order = await Order.find({ 'shoppingCart._id': shoppingCart._id });
+  if (order.length > 0)
+    return res
+      .status(400)
+      .send(
+        'Not possible to delete ShoppingCart, the Order with this cart has been already created'
+      );
 
   shoppingCart = await ShoppingCart.findByIdAndRemove(req.params.id);
- 
 
   res.send(shoppingCart);
-
 });
 
 module.exports = router;
