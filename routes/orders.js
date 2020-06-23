@@ -18,7 +18,6 @@ router.get('/', [auth, customer], async (req, res) => {
       datePlaced: 1,
     });
 
-
   orders = await Order.find({ 'customer._id': req.user._id }).sort({
     datePlaced: 1,
   });
@@ -36,11 +35,12 @@ router.get('/:id', [auth, customer], async (req, res) => {
   let order = await Order.findById(req.params.id).select({ __v: 0 });
   if (!order)
     return res.status(404).send('The order with given ID has no been found');
-    
 
-  if (order.customer._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
+  if (
+    order.customer._id.toString() !== req.user._id &&
+    !req.user.roles.includes(ADMIN)
+  )
     return res.status(400).send('Invalid user.');
-
 
   res.send(order);
 });
@@ -56,32 +56,25 @@ router.post('/', [auth, customer], async (req, res) => {
     $and: [
       { _id: req.body.shoppingCartId },
       { 'customer._id': req.body.customerId },
-      { orderId: null }
-    ]
-  }
-  );
+      { orderId: null },
+    ],
+  });
 
-
-  if (shoppingCart.length === 0)
-    return res
-      .status(400)
-      .send('Invalid shoppingCart');
+  if (shoppingCart.length !== 1)
+    return res.status(400).send('Invalid shoppingCart');
 
   let order = await Order.find({
     $and: [
       { 'shoppingCart._id': req.body.shoppingCartId },
-      { 'customer._id': req.body.customerId }
-    ]
-  }
-  );
+      { 'customer._id': req.body.customerId },
+    ],
+  });
   if (order.length > 0)
     return res
       .status(400)
       .send('The order with given shoppingCart already exists');
 
-
   order = createOrder(shoppingCart[0], req.body.shipping);
-
 
   new Fawn.Task()
     .save('orders', order)
@@ -95,10 +88,7 @@ router.post('/', [auth, customer], async (req, res) => {
   res.send(order);
 });
 
-
-
 router.delete('/:id', [auth, customer], async (req, res) => {
-
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid Order.');
 
@@ -106,8 +96,10 @@ router.delete('/:id', [auth, customer], async (req, res) => {
   if (!order)
     res.status(404).send('The order with given ID has not been found');
 
-
-  if (order.customer._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
+  if (
+    order.customer._id.toString() !== req.user._id &&
+    !req.user.roles.includes(ADMIN)
+  )
     return res.status(400).send('Invalid user.');
 
   Fawn.Task()
@@ -116,7 +108,6 @@ router.delete('/:id', [auth, customer], async (req, res) => {
     .run({ useMongoose: true });
 
   res.send(order);
-
 });
 
 module.exports = router;
