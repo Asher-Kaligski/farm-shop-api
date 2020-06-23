@@ -33,29 +33,36 @@ const shippingSchema = new mongoose.Schema({
     maxlength: ADDRESS_MAX_LENGTH,
   },
   postCode: {
-   type: String,
-   minlength: POSTCODE_MIN_LENGTH,
-   maxlength: POSTCODE_MAX_LENGTH,
- },
+    type: String,
+    minlength: POSTCODE_MIN_LENGTH,
+    maxlength: POSTCODE_MAX_LENGTH,
+  },
   notes: {
     type: String,
     minlength: NOTES_MIN_LENGTH,
     maxlength: NOTES_MAX_LENGTH,
-  }
+  },
 });
 
-
 const joiShippingSchema = Joi.object({
-
-  country: Joi.string().min(COUNTRY_MIN_LENGTH).max(COUNTRY_MAX_LENGTH).required(),
+  country: Joi.string()
+    .min(COUNTRY_MIN_LENGTH)
+    .max(COUNTRY_MAX_LENGTH)
+    .required(),
   city: Joi.string().min(CITY_MIN_LENGTH).max(CITY_MAX_LENGTH).required(),
-  address: Joi.string().min(ADDRESS_MIN_LENGTH).max(ADDRESS_MAX_LENGTH).required(),
-  notes: Joi.string().min(NOTES_MIN_LENGTH).max(NOTES_MAX_LENGTH),
-  postCode: Joi.string().min(POSTCODE_MIN_LENGTH).max(POSTCODE_MAX_LENGTH).required(),
-
+  address: Joi.string()
+    .min(ADDRESS_MIN_LENGTH)
+    .max(ADDRESS_MAX_LENGTH)
+    .required(),
+  notes: Joi.string()
+    .min(NOTES_MIN_LENGTH)
+    .max(NOTES_MAX_LENGTH)
+    .allow('', null),
+  postCode: Joi.string()
+    .min(POSTCODE_MIN_LENGTH)
+    .max(POSTCODE_MAX_LENGTH)
+    .required(),
 });
 
 module.exports.shippingSchema = shippingSchema;
 module.exports.joiShippingSchema = joiShippingSchema;
-
-
