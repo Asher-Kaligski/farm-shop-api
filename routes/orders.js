@@ -53,11 +53,7 @@ router.post('/', [auth, customer], async (req, res) => {
     return res.status(400).send('Invalid user.');
 
   let shoppingCart = await ShoppingCart.find({
-    $and: [
-      { _id: req.body.shoppingCartId },
-      { 'customer._id': req.body.customerId },
-      { orderId: null },
-    ],
+    $and: [{ _id: req.body.shoppingCartId }, { orderId: null }],
   });
 
   if (shoppingCart.length !== 1)
