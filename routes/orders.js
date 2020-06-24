@@ -52,6 +52,9 @@ router.post('/', [auth, customer], async (req, res) => {
   if (req.body.customerId !== req.user._id && !req.user.roles.includes(ADMIN))
     return res.status(400).send('Invalid user.');
 
+  const user = await User.findById(req.body.customerId);
+  if (!user) return res.status(400).send('Invalid User.');
+
   let shoppingCart = await ShoppingCart.find({
     $and: [{ _id: req.body.shoppingCartId }, { orderId: null }],
   });
@@ -70,7 +73,7 @@ router.post('/', [auth, customer], async (req, res) => {
       .status(400)
       .send('The order with given shoppingCart already exists');
 
-  order = createOrder(shoppingCart[0], req.body.shipping);
+  order = createOrder(user, shoppingCart[0], req.body.shipping);
 
   new Fawn.Task()
     .save('orders', order)

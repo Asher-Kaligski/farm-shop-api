@@ -36,10 +36,15 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-function createOrder(shoppingCart, shipping) {
+function createOrder(user, shoppingCart, shipping) {
   
   const order = new Order({
-    customer: shoppingCart.customer,
+    customer: {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone
+          },
     shipping: shipping,
     shoppingCart: shoppingCart
   });
