@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Order, validate, createOrder } = require('../models/order');
 const { ShoppingCart } = require('../models/shopping-cart');
+const { User } = require('../models/user');
 const auth = require('../middleware/auth');
 const customer = require('../middleware/customer');
 const { ADMIN } = require('../constants/roles');
