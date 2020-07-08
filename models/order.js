@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const autoincrement = require('simple-mongoose-autoincrement');
+
 const {shippingSchema, joiShippingSchema} = require('../models/shipping');
 const {
   itemSchema,
@@ -51,6 +53,7 @@ function createOrder(user, shoppingCart, shipping) {
   return order;
 }
 
+orderSchema.plugin(autoincrement, {field: 'orderId'});
 const Order = mongoose.model('Order', orderSchema);
 
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const autoincrement = require('simple-mongoose-autoincrement');
 
 const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 30;
@@ -54,6 +55,7 @@ const farmSchema = new mongoose.Schema({
   imgUrl: String,
 });
 
+farmSchema.plugin(autoincrement, {field: 'farmId'});
 const Farm = new mongoose.model('Farm', farmSchema);
 
 function validateFarm(farm) {

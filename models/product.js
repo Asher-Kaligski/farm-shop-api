@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const autoincrement = require('simple-mongoose-autoincrement');
+
 const { NAME_MIN_LENGTH, NAME_MAX_LENGTH } = require('./farm');
 
 const CATEGORY_MIN_LENGTH = 2;
@@ -50,6 +52,7 @@ const productSchema = new mongoose.Schema({
   }
 });
 
+productSchema.plugin(autoincrement, {field: 'productId'});
 const Product = mongoose.model('Product', productSchema);
 
 function validateProduct(product) {

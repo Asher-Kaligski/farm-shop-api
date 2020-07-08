@@ -44,6 +44,7 @@ const shippingSchema = new mongoose.Schema({
   },
 });
 
+
 const joiShippingSchema = Joi.object({
   country: Joi.string()
     .min(COUNTRY_MIN_LENGTH)

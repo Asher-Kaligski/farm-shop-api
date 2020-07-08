@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const autoincrement = require('simple-mongoose-autoincrement');
+
 const { PRICE_MIN, PRICE_MAX } = require('./product');
 const { userShortSchema } = require('./user');
 
@@ -90,6 +92,7 @@ const shoppingCartSchema = new mongoose.Schema({
   },
 });
 
+shoppingCartSchema.plugin(autoincrement, {field: 'cartId'});
 const ShoppingCart = mongoose.model('Shopping-Cart', shoppingCartSchema);
 
 const joiItemSchema = Joi.object({

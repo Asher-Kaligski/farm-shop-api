@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const autoincrement = require('simple-mongoose-autoincrement');
+
 const { CUSTOMER } = require('../constants/roles');
 
 const NAME_MIN_LENGTH = 2;
@@ -92,6 +94,7 @@ userSchema.methods.generateAuthToken = function () {
   );
 };
 
+userSchema.plugin(autoincrement, {field: 'userId'});
 const User = mongoose.model('User', userSchema);
 
 function validateUser(user) {
