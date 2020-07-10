@@ -58,7 +58,8 @@ router.put('/:id', auth, async (req, res) => {
   user.phone = req.body.phone;
   user.password = req.body.password;
 
-  if (req.user.roles.includes(ADMIN)) user.roles = req.body.roles;
+  if (req.user.roles.includes(ADMIN) && !user.roles.includes(ADMIN))
+    user.roles = req.body.roles;
 
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
