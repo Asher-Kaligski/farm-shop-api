@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const autoincrement = require('simple-mongoose-autoincrement');
 
-const {shippingSchema, joiShippingSchema} = require('../models/shipping');
+const { shippingSchema, joiShippingSchema } = require('../models/shipping');
 const {
   itemSchema,
   TOTAL_PRICE_MIN,
@@ -39,24 +39,21 @@ const orderSchema = new mongoose.Schema({
 });
 
 function createOrder(user, shoppingCart, shipping) {
-  
   const order = new Order({
     customer: {
-            _id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phone: user.phone
-          },
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone,
+    },
     shipping: shipping,
-    shoppingCart: shoppingCart
+    shoppingCart: shoppingCart,
   });
   return order;
 }
 
-orderSchema.plugin(autoincrement, {field: 'orderId'});
+orderSchema.plugin(autoincrement, { field: 'orderId' });
 const Order = mongoose.model('Order', orderSchema);
-
-
 
 function validateOrder(order) {
   const schema = Joi.object({
@@ -67,8 +64,6 @@ function validateOrder(order) {
 
   return schema.validate(order);
 }
-
-
 
 module.exports.createOrder = createOrder;
 module.exports.Order = Order;
