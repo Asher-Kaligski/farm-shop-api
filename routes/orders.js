@@ -18,10 +18,10 @@ router.get('/', [auth, customer], async (req, res) => {
     orders = await Order.find().sort({
       datePlaced: 1,
     });
-
-  orders = await Order.find({ 'customer._id': req.user._id }).sort({
-    datePlaced: 1,
-  });
+  else
+    orders = await Order.find({ 'customer._id': req.user._id }).sort({
+      datePlaced: 1,
+    });
 
   if (orders.length === 0)
     return res.status(404).send('Orders have not been found');
