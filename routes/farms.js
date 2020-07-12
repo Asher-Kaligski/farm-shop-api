@@ -37,6 +37,20 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   res.send(farm);
 });
 
+router.get('/product/:id', [auth, admin], async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send('Invalid Product.');
+
+  const product = Product.findById(req.params.id);
+  if (!product) return res.status(400).send('Invalid Product.');
+
+  let farm = await Farm.findById(product.farm._id);
+  if (!farm)
+    return res.status(404).send('The farm with given ID has no been found');
+
+  res.send(farm);
+});
+
 router.post('/', [auth, farmOwner], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
