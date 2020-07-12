@@ -1,20 +1,21 @@
 const auth = require('../middleware/auth');
 const farmOwner = require('../middleware/farm-owner');
 const admin = require('../middleware/admin');
-const {ADMIN, FARM_OWNER} = require('../constants/roles');
+const { ADMIN, FARM_OWNER } = require('../constants/roles');
 const mongoose = require('mongoose');
 const { Farm, validate, createFarm, updateFarm } = require('../models/farm');
 const { User } = require('../models/user');
 const { Category } = require('../models/category');
+const { Product } = require('../models/product');
 const express = require('express');
 const router = express.Router();
 
-router.get('/',[auth,admin], async (req, res) => {
+router.get('/', [auth, admin], async (req, res) => {
   const farms = await Farm.find().sort({ name: 1 });
   res.send(farms);
 });
 
-router.get('/:id',[auth,admin], async (req, res) => {
+router.get('/:id', [auth, admin], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid Farm.');
 
@@ -25,18 +26,16 @@ router.get('/:id',[auth,admin], async (req, res) => {
   res.send(farm);
 });
 
-router.get('/farmOwner/:id',[auth, farmOwner], async (req, res) => {
+router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid FarmOwner.');
 
-  let farm = await Farm.findOne({'farmOwner._id':req.params.id});
+  let farm = await Farm.findOne({ 'farmOwner._id': req.params.id });
   if (!farm)
     return res.status(404).send('The farm with given ID has no been found');
 
   res.send(farm);
 });
-
-
 
 router.post('/', [auth, farmOwner], async (req, res) => {
   const { error } = validate(req.body);
@@ -100,11 +99,17 @@ router.put('/:id', [auth, farmOwner], async (req, res) => {
 
   updateFarm(farm, req.body);
 
-  if(req.user.roles.includes(ADMIN))
-  farm.fee = req.body.fee
+  if (req.user.roles.includes(ADMIN)) farm.fee = req.body.fee;
 
   farm = await farm.save();
+
   res.send(farm);
+
+  await Product.update(
+    { 'farm._id': farm._id },
+    { 'farm.name': farm.name },
+    { multi: true }
+  );
 });
 
 router.delete('/:id', [auth, farmOwner], async (req, res) => {
