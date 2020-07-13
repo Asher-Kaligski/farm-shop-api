@@ -59,9 +59,9 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   let farmOrders = [];
 
   orders.forEach((order) => {
-    let filteredItems = order.shoppingCart.items.filter((item) => {
-      return productIds.includes(item.product._id);
-    });
+    // let filteredItems = order.shoppingCart.items.filter((item) => {
+    //   return productIds.includes(item.product._id);
+    // });
     farmOrders.push({
       datePlaced: order.datePlaced,
       customer: {
@@ -70,7 +70,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
         phone: order.customer.phone,
       },
       shipping: order.shipping,
-      items: filteredItems,
+      items: order.shoppingCart.items,
     });
   });
 
