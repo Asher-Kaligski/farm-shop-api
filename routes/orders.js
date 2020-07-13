@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const { Order, validate, createOrder } = require('../models/order');
 const { ShoppingCart } = require('../models/shopping-cart');
 const { User } = require('../models/user');
+const { Product } = require('../models/product');
+const { Farm } = require('../models/farm');
 const auth = require('../middleware/auth');
 const customer = require('../middleware/customer');
+const farmOwner = require('../middleware/farm-owner');
 const { ADMIN } = require('../constants/roles');
 const Fawn = require('fawn');
 
@@ -14,6 +17,7 @@ Fawn.init(mongoose);
 
 router.get('/', [auth, customer], async (req, res) => {
   let orders;
+
   if (req.user.roles.includes(ADMIN))
     orders = await Order.find().sort({
       datePlaced: 1,
@@ -27,6 +31,50 @@ router.get('/', [auth, customer], async (req, res) => {
     return res.status(404).send('Orders have not been found');
 
   res.send(orders);
+});
+
+router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send('Invalid FarmOwner.');
+
+  const farm = await Farm.findOne({ 'farmOwner._id': req.params.id });
+  if (!farm)
+    return res.status(404).send('The farm with given ID has no been found');
+
+  let products = await Product.find({ 'farm._id': farm._id });
+  if (products.length === 0)
+    return res.status(404).send('Products have not been found');
+
+  const productIds = products.map((product) => product._id);
+
+  const orders = await Order.find({
+    'shoppingCart.items.product._id': { $in: [...productIds] },
+  }).sort({
+    datePlaced: 1,
+  });
+
+  if (orders.length === 0)
+    return res.status(404).send('Orders have not been found');
+
+  let farmOrders = [];
+
+  orders.forEach((order) => {
+    let items = order.items.filter((item) =>
+      productIds.includes(item.product._id.toString())
+    );
+    farmOrders.push({
+      datePlaced: order.datePlaced,
+      customer: {
+        firstName: order.customer.firstName,
+        lastName: order.customer.lastName,
+        phone: order.customer.params,
+      },
+      shipping: order.shipping,
+      items: items,
+    });
+  });
+
+  res.send(farmOrders);
 });
 
 router.get('/:id', [auth, customer], async (req, res) => {
