@@ -60,7 +60,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
   orders.forEach((order) => {
     let filteredItems = order.shoppingCart.items.filter((item) => {
-      return productIds.includes(item.product._id.toString());
+      return productIds.includes(item.product._id);
     });
     farmOrders.push({
       datePlaced: order.datePlaced,
