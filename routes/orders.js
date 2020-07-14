@@ -60,32 +60,10 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
   let farmOrders = [];
 
-  console.log('productIdsArr', productIdsArr);
-  console.log('typeof productIdsArr[0]', typeof productIdsArr[0]);
-  console.log(
-    'typeof orders[0].items[0].product._id',
-    typeof orders[0].shoppingCart.items[0].product._id
-  );
-
   orders.forEach((order) => {
-    // let items = order.shoppingCart.items;
-    // let filteredItems = items.filter((item) =>
-    //   productIds.includes(item.product._id)
-    // );
-    // farmOrders.push({
-    //   datePlaced: order.datePlaced,
-    //   items: filteredItems,
-    // });
-    let filteredItems = [];
-
-    order.shoppingCart.items.forEach((item) => {
-      console.log('item.product._id', item.product._id);
-      if (productIdsArr.includes(item.product._id.toString())) {
-        console.log('if item.product._id');
-        filteredItems.push(item);
-      }
-    });
-
+    let filteredItems = order.shoppingCart.items.filter((item) =>
+      productIdsArr.includes(item.product._id.toString())
+    );
     farmOrders.push({
       datePlaced: order.datePlaced,
       items: filteredItems,
