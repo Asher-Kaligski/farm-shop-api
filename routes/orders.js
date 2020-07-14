@@ -60,18 +60,57 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
   let farmOrders = [];
 
-  orders.forEach((order) => {
-    let filteredItems = order.shoppingCart.items.filter((item) =>
+  // orders.forEach((order) => {
+
+  //   let filteredItems = order.shoppingCart.items.filter((item) =>
+  //     productIdsArr.includes(item.product._id.toString())
+  //   );
+  //   farmOrders.push({
+  //     datePlaced: order.datePlaced,
+  //     items: filteredItems,
+  //   });
+
+  // });
+
+  for (let i = 0; i < orders.length; i++) {
+    let filteredItems = orders[i].shoppingCart.items.filter((item) =>
       productIdsArr.includes(item.product._id.toString())
     );
-    farmOrders.push({
-      datePlaced: order.datePlaced,
-      items: filteredItems,
-    });
-  });
+
+    if (
+      farmOrders.length !== 0 &&
+      isSameDay(orders[i].datePlaced, orders[i - 1].datePlaced)
+    ) {
+      let farmOrder = farmOrders[farmOrders.length - 1];
+
+      filteredItems.forEach((item) => {
+        farmOrder.items.forEach((farmItem) => {
+          if (farmItem.product._id.toString() === item.product._id.toString()) {
+            farmItem.itemTotalPrice += item.itemTotalPrice;
+            farmItem.quantity += item.quantity;
+          }
+        });
+      });
+    } else {
+      farmOrders.push({
+        datePlaced: orders[i].datePlaced,
+        items: filteredItems,
+      });
+    }
+  }
 
   res.send(farmOrders);
 });
+
+function isSameDay(d1, d2) {
+  d1 = new Date(d1);
+  d2 = new Date(d2);
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+}
 
 router.get('/:id', [auth, customer], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
