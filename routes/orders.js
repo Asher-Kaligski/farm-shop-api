@@ -59,18 +59,13 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   let farmOrders = [];
 
   orders.forEach((order) => {
-    let filteredItems = order.shoppingCart.items.filter((item) =>
-      productIds.includes(item.product._id.toString())
+    let items = order.shoppingCart.item;
+    let filteredItems = items.filter((item) =>
+      productIds.includes(item.product._id)
     );
     farmOrders.push({
       datePlaced: order.datePlaced,
-      customer: {
-        firstName: order.customer.firstName,
-        lastName: order.customer.lastName,
-        phone: order.customer.phone,
-      },
-      shipping: order.shipping,
-      items: filteredItems,
+      items: filteredItems
     });
   });
 
