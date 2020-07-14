@@ -79,7 +79,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
     if (
       farmOrders.length !== 0 &&
-      isSameDay(orders[i].datePlaced, orders[i - 1].datePlaced)
+      isSameDay(new Date(orders[i].datePlaced), new Date(orders[i - 1].datePlaced))
     ) {
       let farmOrder = farmOrders[farmOrders.length - 1];
 
@@ -88,7 +88,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
           if (farmItem.product._id.toString() === item.product._id.toString()) {
             farmItem.itemTotalPrice += item.itemTotalPrice;
             farmItem.quantity += item.quantity;
-          }
+          } 
         });
       });
     } else {
@@ -103,8 +103,6 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 });
 
 function isSameDay(d1, d2) {
-  d1 = new Date(d1);
-  d2 = new Date(d2);
   return (
     d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
