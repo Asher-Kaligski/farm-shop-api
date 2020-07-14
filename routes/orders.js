@@ -50,7 +50,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   const orders = await Order.find({
     'shoppingCart.items.product._id': { $in: [...productIds] },
   }).sort({
-    datePlaced: 1,
+    datePlaced: -1,
   });
 
   const productIdsArr = productIds.map(String);
