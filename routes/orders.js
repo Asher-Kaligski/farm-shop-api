@@ -59,6 +59,11 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   let farmOrders = [];
 
   console.log('productIds', productIds);
+  console.log('typeof productIds[0]', typeof productIds[0]);
+  console.log(
+    'typeof orders[0].items[0].product._id',
+    typeof orders[0].shoppingCart.items[0].product._id
+  );
 
   orders.forEach((order) => {
     // let items = order.shoppingCart.items;
