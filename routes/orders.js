@@ -70,7 +70,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
     let filteredItems = [];
 
     order.shoppingCart.items.forEach((item) => {
-      if (productIds.includes(item.product._id)) {
+      if (productIds.indexOf(item.product._id) !== -1) {
         filteredItems.push(item);
       }
     });
