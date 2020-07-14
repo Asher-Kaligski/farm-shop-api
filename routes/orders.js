@@ -71,6 +71,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   //   });
 
   // });
+  console.log('orders', orders);
 
   for (let i = 0; i < orders.length; i++) {
     let filteredItems = orders[i].shoppingCart.items.filter((item) =>
@@ -79,16 +80,21 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
     if (
       farmOrders.length !== 0 &&
-      isSameDay(new Date(orders[i].datePlaced), new Date(orders[i - 1].datePlaced))
+      isSameDay(
+        new Date(orders[i].datePlaced),
+        new Date(orders[i - 1].datePlaced)
+      )
     ) {
       let farmOrder = farmOrders[farmOrders.length - 1];
+
+      console.log('farmOrder', farmOrder);
 
       filteredItems.forEach((item) => {
         farmOrder.items.forEach((farmItem) => {
           if (farmItem.product._id.toString() === item.product._id.toString()) {
             farmItem.itemTotalPrice += item.itemTotalPrice;
             farmItem.quantity += item.quantity;
-          } 
+          }
         });
       });
     } else {
