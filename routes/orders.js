@@ -58,6 +58,8 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
   let farmOrders = [];
 
+  console.log('productIds', productIds);
+
   orders.forEach((order) => {
     // let items = order.shoppingCart.items;
     // let filteredItems = items.filter((item) =>
@@ -70,7 +72,9 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
     let filteredItems = [];
 
     order.shoppingCart.items.forEach((item) => {
-      if (productIds.indexOf(item.product._id) !== -1) {
+      console.log('item.product._id', item.product._id);
+      if (productIds.includes(item.product._id)) {
+        console.log('if item.product._id');
         filteredItems.push(item);
       }
     });
