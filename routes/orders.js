@@ -45,7 +45,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
   if (products.length === 0)
     return res.status(404).send('Products have not been found');
 
-  const productIds = products.map((product) => product._id);
+  let productIds = products.map((product) => product._id);
 
   const orders = await Order.find({
     'shoppingCart.items.product._id': { $in: [...productIds] },
@@ -53,13 +53,15 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
     datePlaced: 1,
   });
 
+  const productIdsArr = productIds.map(String);
+
   if (orders.length === 0)
     return res.status(404).send('Orders have not been found');
 
   let farmOrders = [];
 
-  console.log('productIds', productIds);
-  console.log('typeof productIds[0]', typeof productIds[0]);
+  console.log('productIdsArr', productIdsArr);
+  console.log('typeof productIdsArr[0]', typeof productIdsArr[0]);
   console.log(
     'typeof orders[0].items[0].product._id',
     typeof orders[0].shoppingCart.items[0].product._id
@@ -78,7 +80,7 @@ router.get('/farmOwner/:id', [auth, farmOwner], async (req, res) => {
 
     order.shoppingCart.items.forEach((item) => {
       console.log('item.product._id', item.product._id);
-      if (productIds.includes(item.product._id)) {
+      if (productIdsArr.includes(item.product._id.toString())) {
         console.log('if item.product._id');
         filteredItems.push(item);
       }
