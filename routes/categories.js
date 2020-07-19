@@ -48,12 +48,12 @@ router.put('/:id', [auth, admin], async (req, res) => {
   if (!category)
     res.status(404).send('The category with given ID has not been found');
 
-    let categories = await Category.find().select({ name: 1, _id: 0 });
+  let categories = await Category.find().select({ name: 1, _id: 0 });
 
-    categories = categories.map((obj) => obj.name);
-  
-    if (categories.includes(req.body.name))
-      return res.status(400).send('The category is already exists');
+  categories = categories.map((obj) => obj.name);
+
+  if (categories.includes(req.body.name))
+    return res.status(400).send('The category is already exists');
 
   category.name = req.body.name;
   category = await category.save();
@@ -62,7 +62,6 @@ router.put('/:id', [auth, admin], async (req, res) => {
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
-
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid Category.');
 

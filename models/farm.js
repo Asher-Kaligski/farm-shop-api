@@ -19,23 +19,23 @@ const farmSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: NAME_MIN_LENGTH,
-        maxlength: NAME_MAX_LENGTH
+        maxlength: NAME_MAX_LENGTH,
       },
       lastName: {
         type: String,
         required: true,
         minlength: NAME_MIN_LENGTH,
-        maxlength: NAME_MAX_LENGTH
-      }
+        maxlength: NAME_MAX_LENGTH,
+      },
     }),
-    required: true
+    required: true,
   },
   address: String,
   name: {
     type: String,
     required: true,
     minlength: NAME_MIN_LENGTH,
-    maxlength: NAME_MAX_LENGTH
+    maxlength: NAME_MAX_LENGTH,
   },
 
   categories: [String],
@@ -49,13 +49,13 @@ const farmSchema = new mongoose.Schema({
     type: Number,
     default: FEE_DEFAULT,
     min: FEE_MIN,
-    max: FEE_MAX
+    max: FEE_MAX,
   },
 
   imgUrl: String,
 });
 
-farmSchema.plugin(autoincrement, {field: 'farmId'});
+farmSchema.plugin(autoincrement, { field: 'farmId' });
 const Farm = new mongoose.model('Farm', farmSchema);
 
 function validateFarm(farm) {
@@ -64,8 +64,7 @@ function validateFarm(farm) {
     categories: Joi.array().items(Joi.string()).required(),
     phone: Joi.string().min(PHONE_MIN_LENGTH).max(PHONE_MAX_LENGTH).required(),
     farmOwnerId: Joi.objectId().required(),
-    fee: Joi.number().min(FEE_MIN).max(FEE_MAX).default(FEE_DEFAULT)
-
+    fee: Joi.number().min(FEE_MIN).max(FEE_MAX).default(FEE_DEFAULT),
   });
 
   return schema.validate(farm);
@@ -88,12 +87,10 @@ function createFarm(user, body) {
 }
 
 function updateFarm(farm, body) {
-
-  farm.name = body.name,
-    farm.categories = body.categories,
-    farm.phone = body.phone,
-    farm.fee = body.fee
-
+  (farm.name = body.name),
+    (farm.categories = body.categories),
+    (farm.phone = body.phone),
+    (farm.fee = body.fee);
 }
 
 module.exports.Farm = Farm;

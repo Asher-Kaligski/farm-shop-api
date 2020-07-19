@@ -18,7 +18,7 @@ const farmSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: NAME_MIN_LENGTH,
-    maxlength: NAME_MAX_LENGTH
+    maxlength: NAME_MAX_LENGTH,
   },
 });
 
@@ -31,8 +31,7 @@ const productSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String,
-    default:
-      '',
+    default: '',
   },
   price: {
     type: Number,
@@ -49,10 +48,10 @@ const productSchema = new mongoose.Schema({
   farm: {
     type: farmSchema,
     required: true,
-  }
+  },
 });
 
-productSchema.plugin(autoincrement, {field: 'productId'});
+productSchema.plugin(autoincrement, { field: 'productId' });
 const Product = mongoose.model('Product', productSchema);
 
 function validateProduct(product) {
@@ -64,7 +63,7 @@ function validateProduct(product) {
     imageUrl: Joi.string(),
     price: Joi.number().min(PRICE_MIN).max(PRICE_MAX).required(),
     title: Joi.string().min(TITLE_MIN_LENGTH).max(TITLE_MAX_LENGTH).required(),
-    farmId: Joi.objectId().required()
+    farmId: Joi.objectId().required(),
   });
 
   return schema.validate(product);
@@ -81,7 +80,7 @@ function createProduct(reqBody, farm) {
       name: farm.name,
     },
   });
-  
+
   return product;
 }
 

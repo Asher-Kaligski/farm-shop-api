@@ -88,13 +88,13 @@ userSchema.methods.generateAuthToken = function () {
       _id: this._id,
       roles: this.roles,
       firstName: this.firstName,
-      email: this.email
+      email: this.email,
     },
     config.get('jwtPrivateKey')
   );
 };
 
-userSchema.plugin(autoincrement, {field: 'userId'});
+userSchema.plugin(autoincrement, { field: 'userId' });
 const User = mongoose.model('User', userSchema);
 
 function validateUser(user) {

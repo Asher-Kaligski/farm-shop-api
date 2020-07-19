@@ -25,7 +25,6 @@ router.get('/', [auth, admin], async (req, res) => {
   res.send(shoppingCarts);
 });
 
-//[auth, customer],
 router.get('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
@@ -38,32 +37,12 @@ router.get('/:id', async (req, res) => {
       .status(404)
       .send('The shopping cart with given ID has no been found');
 
-  // if (
-  //   shoppingCart.customer._id.toString() !== req.user._id &&
-  //   !req.user.roles.includes(ADMIN)
-  // )
-  //   return res.status(400).send('Invalid user');
-
   res.send(shoppingCart);
 });
 
-//[auth, customer],
 router.post('/', async (req, res) => {
   const { error } = validateShoppingCart(req.body);
   if (error) res.status(400).send(error.details[0].message);
-
-  // const user = await User.findById(req.body.userId);
-  // if (!user) return res.status(400).send('Invalid User.');
-
-  // if (user._id.toString() !== req.user._id && !req.user.roles.includes(ADMIN))
-  //   return res.status(400).send('Invalid user');
-
-  // const shoppingCarts = await ShoppingCart.find({
-  //   $and: [{ 'customer._id': req.body.userId }, { orderId: { $eq: null } }],
-  // });
-
-  // if (shoppingCarts.length > 0)
-  //   return res.status(400).send('The user has already the shopping cart');
 
   let itemsArr = [];
   if (req.body.items.length > 0) {
@@ -88,7 +67,6 @@ router.post('/', async (req, res) => {
   res.send(shoppingCart);
 });
 
-//[auth, customer],
 router.patch('/:id', async (req, res) => {
   const { error } = validateItem(req.body);
   if (error) res.status(400).send(error.details[0].message);
@@ -100,12 +78,6 @@ router.patch('/:id', async (req, res) => {
 
   if (!shoppingCart)
     res.status(404).send('The shopping cart with given ID has not been found');
-
-  // if (
-  //   shoppingCart.customer._id.toString() !== req.user._id &&
-  //   !req.user.roles.includes(ADMIN)
-  // )
-  //   return res.status(400).send('Invalid user');
 
   const product = await Product.findById(req.body.productId);
   if (!product)
@@ -135,7 +107,6 @@ router.patch('/:id', async (req, res) => {
   res.send(shoppingCart);
 });
 
-//[auth, customer],
 router.delete('/items/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send('Invalid ShoppingCart.');
@@ -166,12 +137,6 @@ router.delete('/:id', async (req, res) => {
   let shoppingCart = await ShoppingCart.findById(req.params.id);
   if (!shoppingCart)
     res.status(404).send('The shoppingCart with given ID has not been found');
-
-  // if (
-  //   shoppingCart.customer._id.toString() !== req.user._id &&
-  //   !req.user.roles.includes(ADMIN)
-  // )
-  //   return res.status(400).send('Invalid user');
 
   const order = await Order.find({ 'shoppingCart._id': shoppingCart._id });
   if (order.length > 0)
